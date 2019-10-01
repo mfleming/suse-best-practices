@@ -827,20 +827,16 @@ Setting cpu: 2
 
   <sect1 xml:id="sec.hw_based_profiling">
     <title>Hardware-based Profiling</title>
-    <para>Ordinarily advanced monitoring of a workload is conducted via <command>oprofile</command>
-      or <command>perf</command>. At the time of writing, it is known that EPYC 2 has extensive
-      Performance Monitoring Unit (PMU) capabilities but the OS support is limited.
-        <command>oprofile</command> is not implemented and falls back to using the timer interrupt
-      which is not recommended for general use. <command>perf</command> support is limited to a
-      subset of events: cycles, L1 cache access/misses, TLB access/misses, retired branch
-      instructions and mispredicted branches. In terms of identifying what subsystem may be worth
-      tuning in the OS, the most useful invocation is <command>perf record -a -e cycles sleep
-        30</command> to capture 30 seconds of data for the entire system. You can also call
-        <command>perf record -e cycles command</command> to gather a profile of a given workload.
-      Specific information on the OS can be gathered through tracepoints or creating probe points
-      with <command>perf</command> or <command>trace-cmd</command>. But the details on how to
-      conduct such analysis are beyond the scope of this paper.</para>
-  </sect1>
+    <para>EPYC 2 has extensive Performance Monitoring Unit (PMU) capabilities, and
+      advanced monitoring of a workload can be conducted via <command>oprofile</command>
+      or <command>perf</command>. Both commands support a range of hardware events including
+      cycles, L1 cache access/misses, TLB access/misses, retired branch instructions and mispredicted branches.
+      In terms of identifying what subsystem may be worth tuning in the OS, the most useful invocation is
+      <command>perf record -a -e cycles sleep 30</command> to capture 30 seconds of data for the entire system.
+      You can also call <command>perf record -e cycles command</command> to gather a profile of a given
+      workload. Specific information on the OS can be gathered through tracepoints or creating probe points with
+      <command>perf</command> or <command>trace-cmd</command>. But the details on how to conduct such analysis
+      are beyond the scope of this paper.</para> </sect1>
 
   <sect1 xml:id="sec.candidate_workloads">
     <title>Candidate Workloads</title>
