@@ -314,6 +314,9 @@ epyc:~ # taskset -c `cat /sys/devices/system/cpu/cpu1/cache/index3/shared_cpu_li
         it may not be possible to manually bind IRQs. For example, some devices multi-queue support
         may not permit IRQs affinities to be changed. </para>
 
+      <para><emphasis role="italic"> AMD/SUSE: Double check the 15 SP1 irqbalance package to see if
+        the necessary patches were backported for EPYC 2 or not.</emphasis></para>
+
       <para>The second is that guides about CPU binding tend to focus on binding to a single CPU.
         This is not always optimal when the task communicates with other threads as fixed bindings
         potentially miss an opportunity for the processes to use idle cores sharing an L1 or L2
