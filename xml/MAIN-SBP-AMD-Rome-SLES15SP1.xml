@@ -92,45 +92,69 @@
     <para>Historically, a single socket contained several cores sharing a hierarchy of caches and
       memory channels and multiple sockets were connected via a memory interconnect. Modern
       configurations may have multiple dies as a <emphasis role="italic">Multi-Chip Module
-        (MCM)</emphasis> with one set of interconnects within the socket and a separate interconnect
+      (MCM)</emphasis> with one set of interconnects within the socket and a separate interconnect
       for each socket. In practical terms, it means that some CPUs and memory are faster to access
       than others depending on the <quote>distance</quote>. This should be considered when tuning
       for <emphasis role="italic">Non-Uniform Memory Architecture (NUMA)</emphasis> as all memory
       accesses are not necessarily to local memory incurring a variable access penalty.</para>
 
-    <para>EPYC 2 is an MCM design with upto eight dies on each package. The number of cores on
-      each die is always symmetric so they are balanced. Each socket has eight memory channels
-      (two channels per die) with two <emphasis role="italic">Dual Inline Memory Modules
-      (DIMMs)</emphasis> allowed per channel for up to 16 DIMMs per socket. Total
-      capacity is expected to be 4TB per socket with a maximum bandwidth of 25.6GB/sec per
-      channel for a total of 204.8GB/sec per socket depending on the DIMMs selected.</para>
+    <para>EPYC 2 is an MCM design with up to nine dies on each package which is significantly
+      different to the EPYC 1 design. One die is a central I/O die through which all off-chip
+      communication passes through. The basic building block of a compute die is a four-core
+      Core CompleX (CCX) with its own L1-L3 cache hierarchy. One Core Complex Die (CCD)
+      consists of two CCXs with an Infinity Link to the I/O Hub. A 64-core Rome socket therefore
+      consists of 8 CCDs consisting of 16 CCXs or 64 cores in total with one additional I/O
+      die for 9 dies in total.</para>
 
-    <para>Within the package, the eight dies are interconnected with a fully-connected Infinity
-      Fabric. Fully connected means that one core accessing memory connected to another die will
-      always be one hop away. The bandwidth of the fabric is 64 GB/sec per link. The link is
-      optimized for low-power and low-latency so the bandwidth available means that a die accessing
-      memory local to the socket incurs a smaller access penalty than is normally expected when
-      accessing remote memory.</para>
+    <para><emphasis role="italic">AMD: It would be nice to be able to
+      use an official AMD graphic illustrating the relationship between
+      the CCX, CCD, and IO hub. Information on the AMD website itself is
+      sparse and the data is inferred from presentations. This leaves
+      a lot of room for error such as whether a CCD really shares one
+      infinity link to the I/O Hub between two CCXs.</emphasis></para>
 
-    <para>Sockets are also connected via Infinity Fabric with eight links between each socket
-      connecting each die on one socket to the peer die on the second socket. Consequently, access
-      distance to remote memory from a thread will be at most 2 hops away. The data bandwidth on
-      each of these links is 64 GB/sec for a total of 512 GB/sec between sockets. At the time of
-      writing, only two sockets are possible within a single machine.</para>
+    <para>Communication between the chip and memory is via the IO hub with each CCD having
+      one dedicated Infinity Fabric link to the hub and two memory channels per CCD located
+      on the Hub. The practical consequence of this architecture versus the first generation
+      EPYC is that the topology is simplier. The first generation had separate memory channels
+      per die as well as links between dies giving two levels of NUMA distance within a
+      single socket and a third distance when communicating between sockets. This
+      meant that a two-socket machine for EPYC had 4 NUMA nodes (3 levels of NUMA distance)
+      where as EPYC 2 has just 2 NUMA nodes (2 levels of NUMA distance) which is easier to
+      tune and optimise.</para>
 
-    <para>Power management on the links is careful to minimize the amount of power required. If the
-      links are idle then the power may be used to boost the frequency of individual cores. Hence,
-      it is worth noting that minimising access is not only important from a memory access latency
-      point of view, but it also has an impact on the speed of individual cores.</para>
+    <para>The IO Hub has a total of 8 memory controllers, each with 2 channels supporting 1
+      DDR4 <emphasis role="italic">Dual Inline Memory Modules (DIMMs)</emphasis> each (16
+      DIMMs in total). With a peak DDR4 frequency of 3.2GHz, this yields a total of
+      409.6 GB/sec peak bandwidth with the exact bandwidth depending on the DIMMs selected
+      and number of memory channels populated. Total capacity is expected to be 4 TB.</para>
 
-    <para>There are eight IO x16 links per die giving a total of 16 links where links can be used as
-      Infinity links, PCI Express links or a limited number of SATA links. This allows very large IO
-      configurations and a high degree of flexibility because of having a total of 128 lanes
-      available on single socket machines. It is important to note that the number of links
-      available is equal in one socket and two socket configurations. In one socket configurations,
-      all lanes are available for IO. In two socket configurations, some lanes are used to connect
-      the two sockets together with the upshot that a one socket configuration does not compromise
-      on the available IO channels.</para>
+    <para><emphasis role="italic">AMD: These figures need to be double checked. It was
+      difficult to get clear architectural details on the capabilities of the memory
+      topology and how sockets are linked together. We think this description is accurate
+      but it's uncertain. Information on the bandwidth of the Infinity Links is unavailable
+      so we do not comment on it because even with that figure, it's unclear how channels
+      are used per infinity link and what consequences this may have for peak inter-socket
+      bandwidth.  Similarly, the power management capabilities are unclear. In EPYC, it
+      was possible that power available to the infinity links could be used to boost CPU
+      frequency if the link was idle but it's not clear if this is still the case. It
+      does not have an impact on the tuning guide itself so the information is simply
+      omitted.</emphasis></para>
+
+    <para>There are eight IO x16 PCIe 4.0 lanes per socket where lanes
+      can be used as Infinity links, PCI Express links or SATA links
+      with a limit of 32 SATA or NVMe devices. This allows very large IO
+      configurations and a high degree of flexibility given that either IO
+      bandwidth can be optimised or the bandwidth between sockets depending
+      on the OEM requirements. The most likely configuration is that the
+      number of PCIe links will be the same for 1 and socket machines
+      given that some lanes per socket will be used for inter-socket
+      communication. The upshot is that a 1 or 2 socket configuration
+      does not have to compromise on the available IO channels.</para>
+
+    <para><emphasis role="italic">AMD: Similarly, it was very difficult to determine
+      exactly how the PCIe links can be used or reconfigured given the lack of detailed
+      architectural manuals. Much had to be inferred from presentations</emphasis></para>
 
   </sect1>
 
