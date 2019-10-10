@@ -261,9 +261,10 @@ node   0   1
       data belonging to a large task.</para>
 
     <para>Further improvements can be made to access latencies by binding a workload to a single
-        <emphasis role="italic">CPU Complex (CCX)</emphasis> within a node. Since L3 caches are not
+      <emphasis role="italic">CPU Complex (CCX)</emphasis> within a node. Since L3 caches are not
       shared between CCXs, binding a workload to a CCX avoids L3 cache misses caused by workload
-      migration.</para>
+      migration. However, it should be carefully considered whether binding on a per CCD basis
+      to share memory bandwidth between multiple processes is preferred.</para>
 
     <para>Find examples below on how <package>taskset</package> and <package>numactl</package> can
       be used to start commands bound to different CPUs depending on the topology.</para>
