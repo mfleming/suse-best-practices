@@ -64,7 +64,7 @@
     <abstract>
 
       <para>The document at hand provides an overview of the AMD EPYC 2 (TM) architecture and how
-        computational-intensive workloads can be tuned on SUSE Linux Enterprise Server 15
+        some computational-intensive workloads can be tuned on SUSE Linux Enterprise Server 15
         SP1.</para>
     </abstract>
   </info>
@@ -84,8 +84,8 @@
 
     <para><emphasis role="italic">Symmetric multiprocessing (SMP)</emphasis> systems are those that
       contain two or more physical processing cores. Each core may have two threads if
-      hyper-threading is enabled with some resources being shared between hyper-thread siblings. To
-      minimize access latencies, multiple layers of caches are used with each level being larger but
+      Symmetetric Multi-Threading (SMT) is enabled with some resources being shared between SMT siblings.
+      To minimize access latencies, multiple layers of caches are used with each level being larger but
       with higher access costs. Cores may share different levels of cache which should be considered
       when tuning for a workload.</para>
 
