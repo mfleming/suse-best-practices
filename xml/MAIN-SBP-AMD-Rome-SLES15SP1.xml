@@ -178,11 +178,12 @@
 
     <para>This tool is part of the <package>hwloc</package> package which is not supported in SUSE
       Linux Enterprise Server 15 SP1 but can be installed for illustration. The two
-        <quote>packages</quote> correspond to each socket. The eight dies on each socket are clearly
-      visible and each die has a split L3 cache. Optimizing for computation should focus on
-      co-operating tasks being bound to a die. In this example, the IO channels are not heavily used
-      but the focus will be CPU and memory-intensive loads. If optimizing for IO, it is recommended,
-      where possible, that the workload is located on the nodes local to the IO channel.</para>
+      <quote>packages</quote> correspond to each socket. The CCXs consisting of 4 cores (8 threads)
+      each should be clear as each CCX has 1 L3 cache. What is not obvious is the links to the I/O
+      hub but it should be taken into account when splitting a workload to optimise bandwidth to
+      memory.  In this example, the IO channels are not heavily used but the focus will be CPU and
+      memory-intensive loads. If optimizing for IO, it is recommended, where possible, that the
+      workload is located on the nodes local to the IO channel.</para>
 
     <para>The computer output below shows a conventional view of the topology using the
         <package>numactl</package> tool. The CPU IDs that map to each node are reported on the
