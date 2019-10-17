@@ -881,7 +881,13 @@ Setting cpu: 2
       <title>Test Setup</title>
 
       <para>The following sections will demonstrate how an OpenMP and MPI workload can be configured
-        and tuned on an EPYC 2 reference platform.</para>
+	and tuned on an EPYC 2 reference platform. The system has 2 AMD EPYC 7702P processors, each
+	with 64 cores and SMT enabled for a total of 128 cores (256 logical CPUs). Half the
+	memory banks are populated with DDR4 2666 MHz RDIMMs, with a theoretical maximum transfer
+	speed of 21.3 GB/sec each. With single ranking, the peak memory transfer speed is 341 GB/sec.
+	Note that the peak theoretical transfer speed is rarely reached in practice given that it
+	can be affected by the mix of reads/writes as well as the location and temporal proximity of
+	memory locations accessed.</para>
 
       <table>
         <title>Test Setup</title>
@@ -968,15 +974,18 @@ Setting cpu: 2
         John D. McCalpin from the University of Virginia (for more information, see <link
           xlink:href="https://www.cs.virginia.edu/stream/"
           >https://www.cs.virginia.edu/stream/</link>. It can be used to measure bandwidth of each
-        cache level and bandwidth to main memory assuming adequate care is taken. It is not perfect
-        as some portions of the data will be stored in cache instead of being fetched from main
-        memory.</para>
+	cache level and bandwidth to main memory while calculating four basic vector operations.
+	Each operation can exhibit different throughputs to main memory depending on the locations
+	and type of access.</para>
 
       <para>The benchmark was configured to run both single-threaded and parallelised with OpenMP to
-        take advantage of each memory channel. The array elements for the benchmark was set at
-        100007936 elements at compile time so each that array was 763MB in size for a total memory
-        footprint of 2289 MB. The size was selected to minimize the possibility that cache usage
-        would dominate the measurements.</para>
+	take advantage of multiple memory controllers. The array elements for the benchmark was set at
+	268,435,456 elements at compile time so each that array was 2048MB in size for a total memory
+	footprint of approximately 6144 MB. The size was selected in line with the recommendation
+	from STREAM that the array sizes be at least 4 times the total size of L3 cache available in
+	the system. An array-size offset was used so that the separate arrays for each parallelised
+	thread would not share a Transparent Huge Page as NUMA balancing may choose to migrate shared
+	pages leading to some distortion of the results. </para>
 
       <table>
         <title>Test Workload: STREAM</title>
@@ -1006,7 +1015,7 @@ Setting cpu: 2
               </entry>
               <entry>
                 <para>
-                  <parameter>-m64 -lm -O3</parameter>
+                  <parameter>-Ofast -march=znver1 -mcmodel=medium -DOFFSET=512</parameter>
                 </para>
               </entry>
             </row>
@@ -1029,7 +1038,7 @@ Setting cpu: 2
                   <parameter>OMP_PROC_BIND=SPREAD</parameter>
                 </para>
                 <para>
-                  <parameter>OMP_NUM_THREADS=16</parameter>
+                  <parameter>OMP_NUM_THREADS=32</parameter>
                 </para>
               </entry>
             </row>
@@ -1037,40 +1046,59 @@ Setting cpu: 2
         </tgroup>
       </table>
 
-      <para>The number of openMP threads was selected to have at least one thread running for every
-        memory channel. The <parameter>OMP_PROC_BIND</parameter> parameter was to have one thread
-        running on a core with a dedicated L3 cache to maximize available bandwidth. This can be
-        verified using <command>trace-cmd</command>, as illustrated below with slight editing for
-        formatting and clarity.</para>
+      <para>The <parameter>march=znver1</parameter> is a reflection of the compiler available
+	in SLE 15 SP2. From <command>gcc 9.2</command>, full architectural support via
+	<parameter>march=znver2</parameter> is available for the EPYC 2 processor and will
+	be shipped with SLE 15 SP2. The number of openMP threads was selected to have at
+	least one thread running for every memory channel by having one thread per L3 cache
+	available. The <parameter>OMP_PROC_BIND</parameter> parameter spreads the threads
+	such that one thread is bound to each available dedicated L3 cache to maximize
+	available bandwidth. This can be verified using <command>trace-cmd</command>, as
+	illustrated below with slight editing for formatting and clarity.</para>
 
       <screen>epyc:~ # trace-cmd record -e sched:sched_migrate_task ./stream
 epyc:~ # trace-cmd report
 ...
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18799 prio=120 orig_cpu=0 dest_cpu=4 
-stream-18798 [000]  x: sched_migrate_task:   comm=trace-cmd pid=18670 prio=120 orig_cpu=4 dest_cpu=5
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18800 prio=120 orig_cpu=0 dest_cpu=8 
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18801 prio=120 orig_cpu=0 dest_cpu=12 
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18802 prio=120 orig_cpu=0 dest_cpu=16 
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18803 prio=120 orig_cpu=0 dest_cpu=20 
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18804 prio=120 orig_cpu=0 dest_cpu=24 
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18805 prio=120 orig_cpu=0 dest_cpu=28 
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18806 prio=120 orig_cpu=0 dest_cpu=32 
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18807 prio=120 orig_cpu=0 dest_cpu=36 
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18808 prio=120 orig_cpu=0 dest_cpu=40 
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18809 prio=120 orig_cpu=0 dest_cpu=44 
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18810 prio=120 orig_cpu=0 dest_cpu=48 
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18811 prio=120 orig_cpu=0 dest_cpu=52 
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18812 prio=120 orig_cpu=0 dest_cpu=56 
-stream-18798 [000]  x: sched_migrate_task:   comm=stream pid=18813 prio=120 orig_cpu=0 dest_cpu=60  
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47250 prio=120 orig_cpu=0 dest_cpu=4
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47251 prio=120 orig_cpu=0 dest_cpu=8
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47252 prio=120 orig_cpu=0 dest_cpu=12
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47253 prio=120 orig_cpu=0 dest_cpu=16
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47254 prio=120 orig_cpu=0 dest_cpu=20
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47255 prio=120 orig_cpu=0 dest_cpu=24
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47256 prio=120 orig_cpu=0 dest_cpu=28
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47257 prio=120 orig_cpu=0 dest_cpu=32
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47258 prio=120 orig_cpu=0 dest_cpu=36
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47259 prio=120 orig_cpu=0 dest_cpu=40
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47260 prio=120 orig_cpu=0 dest_cpu=44
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47261 prio=120 orig_cpu=0 dest_cpu=48
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47262 prio=120 orig_cpu=0 dest_cpu=52
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47263 prio=120 orig_cpu=0 dest_cpu=56
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47264 prio=120 orig_cpu=0 dest_cpu=60
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47265 prio=120 orig_cpu=0 dest_cpu=64
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47266 prio=120 orig_cpu=0 dest_cpu=68
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47267 prio=120 orig_cpu=0 dest_cpu=72
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47268 prio=120 orig_cpu=0 dest_cpu=76
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47269 prio=120 orig_cpu=0 dest_cpu=80
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47270 prio=120 orig_cpu=0 dest_cpu=84
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47271 prio=120 orig_cpu=0 dest_cpu=88
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47272 prio=120 orig_cpu=0 dest_cpu=92
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47273 prio=120 orig_cpu=0 dest_cpu=96
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47274 prio=120 orig_cpu=0 dest_cpu=100
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47275 prio=120 orig_cpu=0 dest_cpu=104
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47276 prio=120 orig_cpu=0 dest_cpu=108
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47277 prio=120 orig_cpu=0 dest_cpu=112
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47278 prio=120 orig_cpu=0 dest_cpu=116
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47279 prio=120 orig_cpu=0 dest_cpu=120
+stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47280 prio=120 orig_cpu=0 dest_cpu=124
 </screen>
 
       <para>Figure 2 below shows the reported bandwidth for the single and parallelized case. The
-        single-threaded bandwidth for a single core was roughly 28.9 GB/sec which is a high percentage
-        of the theoretical max of 42.6 GB/sec (each core has access to two memory channels). The
-        channels are interleaved in this configuration as it has been recommended as the best
-        balance for a variety of workloads but limits the absolute maximum of a specialized
-        benchmark like STREAM. The total throughput for each parallel operation ranged from 180
-        GB/sec to 253 GB/sec which is comparable to the theoretical maximum of 341 GB/sec.</para>
+	single-threaded bandwidth for the basic Copy vector operation on a single core was
+	34.2 GB/sec which is higher than the theoretical maximum of a single DIMM but the I/O
+	hub may interleave accesses.  Channels are interleaved in this configuration as it has
+	been recommended as the best balance for a variety of workloads but limits the absolute
+	maximum of a specialized benchmark like STREAM. The total throughput for each parallel
+	operation ranged from 173 GB/sec to 256 GB/sec.</para>
 
       <note>
         <title>STREAM Scores</title>
