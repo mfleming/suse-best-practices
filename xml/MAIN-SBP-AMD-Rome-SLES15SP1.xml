@@ -2093,6 +2093,211 @@ dmesg |grep SEV
 
   </sect1>
 
+  <sect1 xml:id="sec.virtualization_test_workload_stream">
+    <title>Test VM Workload: STREAM</title>
+
+    <para>The effectiveness of the proposed tuning is demonstrated using the STREAM benchmark.</para>
+
+    <sect2 xml:id="sec.virt_test_stream_onevm">
+      <title>Test Scenario: One Large VM</title>
+
+      <para>Figure <xref linkend="fig.stream-onevm-single"/> shows the bandwidth achieved by STREAM, built in single thread mode, on the host (host-tuned) and inside one large VM, in the following configurations:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>No topology (VM-notopo): the VM is not provided with any virtual NUMA or CPU topology, nor are its memory and vCPUs assigned to host nodes and pCPUs</para>
+        </listitem>
+        <listitem>
+          <para>No pinning (VM-nopin): the VM is configured with the appropriate virtual NUMA and vCPU topology described in the virtualization tuning section, but still no mapping and pinning of memory and vCPUs</para>
+        </listitem>
+        <listitem>
+          <para>Full tuning (VM-tuned): the VM is configured with the appropriate virtual topology, memory and vCPUs are allocated/pinned as recommended.</para>
+        </listitem>
+      </itemizedlist>
+
+      <figure xml:id="fig.stream-onevm-single">
+        <title>STREAM Bandwidth - Single Thread in One VM</title>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-stream-single.png" width="80%" format="PNG"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-stream-single.png" width="80%" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>
+        It appears evident how resource allocation is critical for achieving good performance inside of the VM.
+        In fact, neither only defining a virtual topology nor vCPU and memory pinning, alone, let the VM achieve near host performance. On the contrary, we see performance dropping by -30% or -40%, depending on both the configuration and the STREAM operation considered.
+        That, instead, happens when all the tuning described in this guide is applied. The performance drop with respect to the host, in this case, is always below 1%.
+      </para>
+
+      <para>Figure <xref linked="fig.stream-onevm-32"/> shows the same setup, but running a parallelized (with OpenMP) version of STREAM.</para>
+
+      <para>
+        As the VM has pretty much the same dimension and topology of the host, the same STREAM configuration parameters used in Section <xref linked="sec.workload_stream"/>, are used also here.
+        The only difference was that we used 30 threads, instead of 32.
+        In fact, the VM has <quote>only</quote> 240 vCPUs, instead than 256 CPUs, and hence no more than 15 STREAM threads per node can run together on separaate LLC domains, without competing with each other and spoiling the results.
+      </para>
+
+      <figure xml:id="fig.stream-onevm-32">
+        <title>STREAM Bandwidth - 30 Threads in One VM</title>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-stream-omp.png" width="80%" format="PNG"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-stream-omp.png" width="80%" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>
+        Identical conclusions than with the single threaded STREAM workload can be drawn: proper and complete tuning allows a VM running on an EPYC 2 server, to achieve host memory bandwith.
+        In fact, not pinning vCPUs and memory or not providing the VM with a sensible virtual topology leads to performance drops, as compared to the host, ranging between -50% and -60%.
+        With full tuning applied, the throughput of the VM is around -1% the one of the host.
+      </para>
+
+    </sect2>
+
+    <sect2 xml:id="sec.virt_test_stream-sev">
+      <title>Test Scenario: Secure Encrypted Virtualization</title>
+
+      <para>The goal for this test was evaluating the impact on the performance of SEV, on a memory intensive workload like STREAM.</para>
+
+      <para>
+        Figure <xref linkend="fig.stream-onevm-single-sev"/> shows the results of running single threaded STREAM in a VM with SEV disabled (VM-noSEV) and in one with SEV enabled (VM-SEV)).
+        Similarly, Figure <xref linked="fig:stream-onevm-omp-sev"/> shows the same, but when using the OMP version of STREAM, running with 30 threads.
+        In both cases, both the VMs were tuned according to all the recommendation provided in this guide.
+      </para>
+
+      <figure xml:id="fig.stream-onevm-single-sev">
+        <title>STREAM Bandwidth - Single Thread in One VM, SEV</title>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-stream-single-sev.png" width="80%" format="PNG"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-stream-single-sev.png" width="80%" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <figure xml:id="fig.stream-onevm-omp-sev">
+        <title>STREAM Bandwidth - 30 Threads in One VM, SEV</title>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-stream-omp-sev.png" width="80%" format="PNG"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-stream-omp-sev.png" width="80%" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>It is quite impressive to note how, both in the single and in the parallel cases, the impact of encrypting the memory of the VM with SEV, always stays below -1%.</para>
+
+    </sect2>
+
+  </sect1>
+
+  <sect1 xml:id="sec.virtualization_test_workload_npb">
+    <title>Test VM Workload: NPB</title>
+
+    <!-- Mel, Matt: are we doing the evaluation for NPB on baremetal? If yes (as we did last year, then fine, I'll just reference the relevant sections from here.
+         If no, then I'll add a few words about NPB here myself. -->
+
+    <para>In order to match the experimental evaluation done on bare-metal, NPB base workloads have also been considered.</para>
+
+    <sect2 xml:id="sec.virt_test_npb_onevm">
+      <title>Test Scenario: One Extra Large VM</title>
+
+      <para>Figure <xref linkend="fig.npb-onevm-tuning"/> shows the results of running the various NPB workloads on the host (host-tuned), on partially tuned VMs (VM-notopo and VM-nopin) and on a VM with full tuning applied (VM-tuned).</para>
+
+      <figure xml:id="fig.npbd-onevm-tuning">
+        <title>STREAM Bandwidth - Single Thread in One VM</title>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-npb-npbd-tuning.png" width="80%" format="PNG"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-npbd-tuning.png" width="80%" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>
+        Results show that proper tuning is not only important for memory intensive workloads, such as STREAM, but also for CPU intensive ones.
+        As already noticed on STREAM, in fact, it is only with the full tuning that the VM manages to reach performance between -2% and -7% (with a peak of -16% for ep.D) of the ones of the host.
+      </para>
+
+      <para>
+        Even applying only a subset of the recommendations from this guide, e.g., just giving the VM a virtual topology or only pinning its vCPUs and memory, yields disastrous performance, ranging between -17% and -460%, as compared to the host.
+      </para>
+
+    </sect2>
+
+    <sect2 xml:id="sec.virt_test_npb_cpumod">
+      <title>Test Scenario: Different CPU Models</title>
+
+      <para>
+        NPB workloads were also used to show the impact of using an appropriate CPU model for the VMs.
+        In fact, the <parameter>host-passthrough</parameter>, which is usually the one recommended for best performance, is causing an incorrect CPU topology and an incorrect cache hierarchy structure to be provided to the VM.
+      </para>
+
+      <para>
+        Figure <xref linkend="fig.npb-cpumod"/> compares the results obtained on the host, on the tuned VM with the <parameter>EPYC</parameter> CPU model (VM-EPYC), which this guide recommends using, and with the tuned VM with <parameter>host-passthrough</parameter> CPU model (VM-hostp).
+      </para>
+
+      <figure xml:id="fig.npb-cpumod">
+        <title>STREAM Bandwidth - Single Thread in One VM</title>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-npbd.png" width="80%" format="PNG"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-npbd.png" width="80%" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>
+        The performance drop, when the CPU model is not consistent with the characteristics of the host appears rather large.
+        In fact, between Host and VM-EPYC, the <emphasis>performance drop</emphasis> is between -2% and -7%, and reaches a peak of -16%, in case of ep.D.
+        On the other hand, between Host and VM-hostp ranges between -22% and -75%.
+      </para>
+
+    </sect2>
+
+    <sect2 xml:id="sec.virt_test_npb_sev">
+      <title>Test Scenario: Secure Encrypted Virtualization</title>
+
+      <para>Similarly to what has been done with STREAM, we evaluate here the overhead introduced by SEV for CPU bound workloads (represented by NPB).</para>
+
+      <para>
+        Figure <xref linkend="fig.npb-sev"/> shows the results of running the various NPB workloads on two VMs, both with all the tuning applied and, in the VM-noSEV case, with SEV off.
+        In the VM-SEV case, with SEV on.
+      </para>
+
+      <figure xml:id="fig.npb-sev">
+        <title>STREAM Bandwidth - Single Thread in One VM</title>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-npb-tuning-sev.png" width="80%" format="PNG"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-npb-tuning-sev.png" width="80%" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>Results are again pretty good, as the performance penalty due to SEV, on a CPU intensive benchmark like NPB, is basically non-existent (it is less than 0.5%).</para>
+
+    </sect2>
+
+  </sect1>
+
   <sect1 xml:id="sec.conclusion">
     <title>Conclusion</title>
 
