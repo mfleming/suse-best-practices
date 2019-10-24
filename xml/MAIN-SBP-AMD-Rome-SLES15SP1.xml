@@ -2169,176 +2169,325 @@ dmesg |grep SEV
     <para>Example of a VM configuration file:</para>
 
     <screen>
-  &lt;domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>  
-  &lt;name>sles12sp3_01&lt;/name>
-    &lt;uuid>26137bb8-9e5f-48e9-a81d-63ae36400196&lt;/uuid>
-    &lt;memory unit='KiB'>209715200&lt;/memory>
-    &lt;currentMemory unit='KiB'>209715200&lt;/currentMemory>
-    &lt;memoryBacking>
-      &lt;hugepages>
-        &lt;page size='1048576' unit='KiB'/>
-      &lt;/hugepages>
-      &lt;nosharepages/>
-    &lt;/memoryBacking>
-    &lt;vcpu placement='static'>96&lt;/vcpu>
-    &lt;cputune>
-      &lt;vcpupin vcpu='0' cpuset='1'/>
-      &lt;vcpupin vcpu='1' cpuset='65'/>
-      &lt;vcpupin vcpu='2' cpuset='2'/>
-      &lt;vcpupin vcpu='3' cpuset='66'/>
-      &lt;vcpupin vcpu='4' cpuset='3'/>
-      &lt;vcpupin vcpu='5' cpuset='67'/>
-      &lt;vcpupin vcpu='6' cpuset='4'/>
-      &lt;vcpupin vcpu='7' cpuset='68'/>
-      &lt;vcpupin vcpu='8' cpuset='5'/>
-      &lt;vcpupin vcpu='9' cpuset='69'/>
-      &lt;vcpupin vcpu='10' cpuset='6'/>
-      &lt;vcpupin vcpu='11' cpuset='70'/>
-      &lt;vcpupin vcpu='12' cpuset='9'/>
-      &lt;vcpupin vcpu='13' cpuset='73'/>
-      &lt;vcpupin vcpu='14' cpuset='10'/>
-      &lt;vcpupin vcpu='15' cpuset='74'/>
-      &lt;vcpupin vcpu='16' cpuset='11'/>
-      &lt;vcpupin vcpu='17' cpuset='75'/>
-      &lt;vcpupin vcpu='18' cpuset='12'/>
-      &lt;vcpupin vcpu='19' cpuset='76'/>
-      &lt;vcpupin vcpu='20' cpuset='13'/>
-      &lt;vcpupin vcpu='21' cpuset='77'/>
-      &lt;vcpupin vcpu='22' cpuset='14'/>
-      &lt;vcpupin vcpu='23' cpuset='78'/>
-      &lt;vcpupin vcpu='24' cpuset='17'/>
-      &lt;vcpupin vcpu='25' cpuset='81'/>
-      &lt;vcpupin vcpu='26' cpuset='18'/>
-      &lt;vcpupin vcpu='27' cpuset='82'/>
-      &lt;vcpupin vcpu='28' cpuset='19'/>
-      &lt;vcpupin vcpu='29' cpuset='83'/>
-      &lt;vcpupin vcpu='30' cpuset='20'/>
-      &lt;vcpupin vcpu='31' cpuset='84'/>
-      &lt;vcpupin vcpu='32' cpuset='21'/>
-      &lt;vcpupin vcpu='33' cpuset='85'/>
-      &lt;vcpupin vcpu='34' cpuset='22'/>
-      &lt;vcpupin vcpu='35' cpuset='86'/>
-      &lt;vcpupin vcpu='36' cpuset='25'/>
-      &lt;vcpupin vcpu='37' cpuset='89'/>
-      &lt;vcpupin vcpu='38' cpuset='26'/>
-      &lt;vcpupin vcpu='39' cpuset='90'/>
-      &lt;vcpupin vcpu='40' cpuset='27'/>
-      &lt;vcpupin vcpu='41' cpuset='91'/>
-      &lt;vcpupin vcpu='42' cpuset='28'/>
-      &lt;vcpupin vcpu='43' cpuset='92'/>
-      &lt;vcpupin vcpu='44' cpuset='29'/>
-      &lt;vcpupin vcpu='45' cpuset='93'/>
-      &lt;vcpupin vcpu='46' cpuset='30'/>
-      &lt;vcpupin vcpu='47' cpuset='94'/>
-      &lt;vcpupin vcpu='48' cpuset='33'/>
-      &lt;vcpupin vcpu='49' cpuset='97'/>
-      &lt;vcpupin vcpu='50' cpuset='34'/>
-      &lt;vcpupin vcpu='51' cpuset='98'/>
-      &lt;vcpupin vcpu='52' cpuset='35'/>
-      &lt;vcpupin vcpu='53' cpuset='99'/>
-      &lt;vcpupin vcpu='54' cpuset='36'/>
-      &lt;vcpupin vcpu='55' cpuset='100'/>
-      &lt;vcpupin vcpu='56' cpuset='37'/>
-      &lt;vcpupin vcpu='57' cpuset='101'/>
-      &lt;vcpupin vcpu='58' cpuset='38'/>
-      &lt;vcpupin vcpu='59' cpuset='102'/>
-      &lt;vcpupin vcpu='60' cpuset='41'/>
-      &lt;vcpupin vcpu='61' cpuset='105'/>
-      &lt;vcpupin vcpu='62' cpuset='42'/>
-      &lt;vcpupin vcpu='63' cpuset='106'/>
-      &lt;vcpupin vcpu='64' cpuset='43'/>
-      &lt;vcpupin vcpu='65' cpuset='107'/>
-      &lt;vcpupin vcpu='66' cpuset='44'/>
-      &lt;vcpupin vcpu='67' cpuset='108'/>
-      &lt;vcpupin vcpu='68' cpuset='45'/>
-      &lt;vcpupin vcpu='69' cpuset='109'/>
-      &lt;vcpupin vcpu='70' cpuset='46'/>
-      &lt;vcpupin vcpu='71' cpuset='110'/>
-      &lt;vcpupin vcpu='72' cpuset='49'/>
-      &lt;vcpupin vcpu='73' cpuset='113'/>
-      &lt;vcpupin vcpu='74' cpuset='50'/>
-      &lt;vcpupin vcpu='75' cpuset='114'/>
-      &lt;vcpupin vcpu='76' cpuset='51'/>
-      &lt;vcpupin vcpu='77' cpuset='115'/>
-      &lt;vcpupin vcpu='78' cpuset='52'/>
-      &lt;vcpupin vcpu='79' cpuset='116'/>
-      &lt;vcpupin vcpu='80' cpuset='53'/>
-      &lt;vcpupin vcpu='81' cpuset='117'/>
-      &lt;vcpupin vcpu='82' cpuset='54'/>
-      &lt;vcpupin vcpu='83' cpuset='118'/>
-      &lt;vcpupin vcpu='84' cpuset='57'/>
-      &lt;vcpupin vcpu='85' cpuset='121'/>
-      &lt;vcpupin vcpu='86' cpuset='58'/>
-      &lt;vcpupin vcpu='87' cpuset='122'/>
-      &lt;vcpupin vcpu='88' cpuset='59'/>
-      &lt;vcpupin vcpu='89' cpuset='123'/>
-      &lt;vcpupin vcpu='90' cpuset='60'/>
-      &lt;vcpupin vcpu='91' cpuset='124'/>
-      &lt;vcpupin vcpu='92' cpuset='61'/>
-      &lt;vcpupin vcpu='93' cpuset='125'/>
-      &lt;vcpupin vcpu='94' cpuset='62'/>
-      &lt;vcpupin vcpu='95' cpuset='126'/>
-    &lt;/cputune>
-    &lt;numatune>
-      &lt;memory mode='strict' nodeset='0-7'/>
-      &lt;memnode cellid='0' mode='strict' nodeset='0'/>
-      &lt;memnode cellid='1' mode='strict' nodeset='1'/>
-      &lt;memnode cellid='2' mode='strict' nodeset='2'/>
-      &lt;memnode cellid='3' mode='strict' nodeset='3'/>
-      &lt;memnode cellid='4' mode='strict' nodeset='4'/>
-      &lt;memnode cellid='5' mode='strict' nodeset='5'/>
-      &lt;memnode cellid='6' mode='strict' nodeset='6'/>
-      &lt;memnode cellid='7' mode='strict' nodeset='7'/>
-    &lt;/numatune>
-    &lt;os>
-      &lt;type arch='x86_64' machine='pc-i440fx-2.9'>hvm&lt;/type>
-      &lt;boot dev='hd'/>
-    &lt;/os>
-    &lt;features>
-      &lt;acpi/>
-      &lt;apic/>
-    &lt;/features>
-    &lt;cpu mode='host-passthrough' check='none'>
-      &lt;topology sockets='8' cores='6' threads='2'/>
-      &lt;numa>
-        &lt;cell id='0' cpus='0-11' memory='26214400' unit='KiB'/>
-        &lt;cell id='1' cpus='12-23' memory='26214400' unit='KiB'/>
-        &lt;cell id='2' cpus='24-35' memory='26214400' unit='KiB'/>
-        &lt;cell id='3' cpus='36-47' memory='26214400' unit='KiB'/>
-        &lt;cell id='4' cpus='48-59' memory='26214400' unit='KiB'/>
-        &lt;cell id='5' cpus='60-71' memory='26214400' unit='KiB'/>
-        &lt;cell id='6' cpus='72-83' memory='26214400' unit='KiB'/>
-        &lt;cell id='7' cpus='84-95' memory='26214400' unit='KiB'/>
-      &lt;/numa>
-    &lt;/cpu>
+&lt;domain type='kvm'>
+  &lt;name>sle15sp1</name>
+  &lt;metadata>
+    &lt;libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
+      &lt;libosinfo:os id="http://suse.com/sle/15.1"/>
+    &lt;/libosinfo:libosinfo>
+  &lt;/metadata>
+  &lt;memory unit='KiB'>209715200</memory>
+  &lt;currentMemory unit='KiB'>209715200</currentMemory>
+  &lt;memtune>
+    &lt;hard_limit unit='KiB'>232783872</hard_limit>
+  &lt;/memtune>
+  &lt;memoryBacking>
+    &lt;hugepages>
+      &lt;page size='1048576' unit='KiB'/>
+    &lt;/hugepages>
+    &lt;nosharepages/>
+    &lt;locked/>
+  &lt;/memoryBacking>
+  &lt;vcpu placement='static' cpuset='4-63,68-127,132-191,196-255'>240</vcpu>
+  &lt;cputune>
+    &lt;vcpupin vcpu='0' cpuset='4'/>
+    &lt;vcpupin vcpu='1' cpuset='132'/>
+    &lt;vcpupin vcpu='2' cpuset='5'/>
+    &lt;vcpupin vcpu='3' cpuset='133'/>
+    &lt;vcpupin vcpu='4' cpuset='6'/>
+    &lt;vcpupin vcpu='5' cpuset='134'/>
+    &lt;vcpupin vcpu='6' cpuset='7'/>
+    &lt;vcpupin vcpu='7' cpuset='135'/>
+    &lt;vcpupin vcpu='8' cpuset='8'/>
+    &lt;vcpupin vcpu='9' cpuset='136'/>
+    &lt;vcpupin vcpu='10' cpuset='9'/>
+    &lt;vcpupin vcpu='11' cpuset='137'/>
+    &lt;vcpupin vcpu='12' cpuset='10'/>
+    &lt;vcpupin vcpu='13' cpuset='138'/>
+    &lt;vcpupin vcpu='14' cpuset='11'/>
+    &lt;vcpupin vcpu='15' cpuset='139'/>
+    &lt;vcpupin vcpu='16' cpuset='12'/>
+    &lt;vcpupin vcpu='17' cpuset='140'/>
+    &lt;vcpupin vcpu='18' cpuset='13'/>
+    &lt;vcpupin vcpu='19' cpuset='141'/>
+    &lt;vcpupin vcpu='20' cpuset='14'/>
+    &lt;vcpupin vcpu='21' cpuset='142'/>
+    &lt;vcpupin vcpu='22' cpuset='15'/>
+    &lt;vcpupin vcpu='23' cpuset='143'/>
+    &lt;vcpupin vcpu='24' cpuset='16'/>
+    &lt;vcpupin vcpu='25' cpuset='144'/>
+    &lt;vcpupin vcpu='26' cpuset='17'/>
+    &lt;vcpupin vcpu='27' cpuset='145'/>
+    &lt;vcpupin vcpu='28' cpuset='18'/>
+    &lt;vcpupin vcpu='29' cpuset='146'/>
+    &lt;vcpupin vcpu='30' cpuset='19'/>
+    &lt;vcpupin vcpu='31' cpuset='147'/>
+    &lt;vcpupin vcpu='32' cpuset='20'/>
+    &lt;vcpupin vcpu='33' cpuset='148'/>
+    &lt;vcpupin vcpu='34' cpuset='21'/>
+    &lt;vcpupin vcpu='35' cpuset='149'/>
+    &lt;vcpupin vcpu='36' cpuset='22'/>
+    &lt;vcpupin vcpu='37' cpuset='150'/>
+    &lt;vcpupin vcpu='38' cpuset='23'/>
+    &lt;vcpupin vcpu='39' cpuset='151'/>
+    &lt;vcpupin vcpu='40' cpuset='24'/>
+    &lt;vcpupin vcpu='41' cpuset='152'/>
+    &lt;vcpupin vcpu='42' cpuset='25'/>
+    &lt;vcpupin vcpu='43' cpuset='153'/>
+    &lt;vcpupin vcpu='44' cpuset='26'/>
+    &lt;vcpupin vcpu='45' cpuset='154'/>
+    &lt;vcpupin vcpu='46' cpuset='27'/>
+    &lt;vcpupin vcpu='47' cpuset='155'/>
+    &lt;vcpupin vcpu='48' cpuset='28'/>
+    &lt;vcpupin vcpu='49' cpuset='156'/>
+    &lt;vcpupin vcpu='50' cpuset='29'/>
+    &lt;vcpupin vcpu='51' cpuset='157'/>
+    &lt;vcpupin vcpu='52' cpuset='30'/>
+    &lt;vcpupin vcpu='53' cpuset='158'/>
+    &lt;vcpupin vcpu='54' cpuset='31'/>
+    &lt;vcpupin vcpu='55' cpuset='159'/>
+    &lt;vcpupin vcpu='56' cpuset='32'/>
+    &lt;vcpupin vcpu='57' cpuset='160'/>
+    &lt;vcpupin vcpu='58' cpuset='33'/>
+    &lt;vcpupin vcpu='59' cpuset='161'/>
+    &lt;vcpupin vcpu='60' cpuset='34'/>
+    &lt;vcpupin vcpu='61' cpuset='162'/>
+    &lt;vcpupin vcpu='62' cpuset='35'/>
+    &lt;vcpupin vcpu='63' cpuset='163'/>
+    &lt;vcpupin vcpu='64' cpuset='36'/>
+    &lt;vcpupin vcpu='65' cpuset='164'/>
+    &lt;vcpupin vcpu='66' cpuset='37'/>
+    &lt;vcpupin vcpu='67' cpuset='165'/>
+    &lt;vcpupin vcpu='68' cpuset='38'/>
+    &lt;vcpupin vcpu='69' cpuset='166'/>
+    &lt;vcpupin vcpu='70' cpuset='39'/>
+    &lt;vcpupin vcpu='71' cpuset='167'/>
+    &lt;vcpupin vcpu='72' cpuset='40'/>
+    &lt;vcpupin vcpu='73' cpuset='168'/>
+    &lt;vcpupin vcpu='74' cpuset='41'/>
+    &lt;vcpupin vcpu='75' cpuset='169'/>
+    &lt;vcpupin vcpu='76' cpuset='42'/>
+    &lt;vcpupin vcpu='77' cpuset='170'/>
+    &lt;vcpupin vcpu='78' cpuset='43'/>
+    &lt;vcpupin vcpu='79' cpuset='171'/>
+    &lt;vcpupin vcpu='80' cpuset='44'/>
+    &lt;vcpupin vcpu='81' cpuset='172'/>
+    &lt;vcpupin vcpu='82' cpuset='45'/>
+    &lt;vcpupin vcpu='83' cpuset='173'/>
+    &lt;vcpupin vcpu='84' cpuset='46'/>
+    &lt;vcpupin vcpu='85' cpuset='174'/>
+    &lt;vcpupin vcpu='86' cpuset='47'/>
+    &lt;vcpupin vcpu='87' cpuset='175'/>
+    &lt;vcpupin vcpu='88' cpuset='48'/>
+    &lt;vcpupin vcpu='89' cpuset='176'/>
+    &lt;vcpupin vcpu='90' cpuset='49'/>
+    &lt;vcpupin vcpu='91' cpuset='177'/>
+    &lt;vcpupin vcpu='92' cpuset='50'/>
+    &lt;vcpupin vcpu='93' cpuset='178'/>
+    &lt;vcpupin vcpu='94' cpuset='51'/>
+    &lt;vcpupin vcpu='95' cpuset='179'/>
+    &lt;vcpupin vcpu='96' cpuset='52'/>
+    &lt;vcpupin vcpu='97' cpuset='180'/>
+    &lt;vcpupin vcpu='98' cpuset='53'/>
+    &lt;vcpupin vcpu='99' cpuset='181'/>
+    &lt;vcpupin vcpu='100' cpuset='54'/>
+    &lt;vcpupin vcpu='101' cpuset='182'/>
+    &lt;vcpupin vcpu='102' cpuset='55'/>
+    &lt;vcpupin vcpu='103' cpuset='183'/>
+    &lt;vcpupin vcpu='104' cpuset='56'/>
+    &lt;vcpupin vcpu='105' cpuset='184'/>
+    &lt;vcpupin vcpu='106' cpuset='57'/>
+    &lt;vcpupin vcpu='107' cpuset='185'/>
+    &lt;vcpupin vcpu='108' cpuset='58'/>
+    &lt;vcpupin vcpu='109' cpuset='186'/>
+    &lt;vcpupin vcpu='110' cpuset='59'/>
+    &lt;vcpupin vcpu='111' cpuset='187'/>
+    &lt;vcpupin vcpu='112' cpuset='60'/>
+    &lt;vcpupin vcpu='113' cpuset='188'/>
+    &lt;vcpupin vcpu='114' cpuset='61'/>
+    &lt;vcpupin vcpu='115' cpuset='189'/>
+    &lt;vcpupin vcpu='116' cpuset='62'/>
+    &lt;vcpupin vcpu='117' cpuset='190'/>
+    &lt;vcpupin vcpu='118' cpuset='63'/>
+    &lt;vcpupin vcpu='119' cpuset='191'/>
+    &lt;vcpupin vcpu='120' cpuset='68'/>
+    &lt;vcpupin vcpu='121' cpuset='196'/>
+    &lt;vcpupin vcpu='122' cpuset='69'/>
+    &lt;vcpupin vcpu='123' cpuset='197'/>
+    &lt;vcpupin vcpu='124' cpuset='70'/>
+    &lt;vcpupin vcpu='125' cpuset='198'/>
+    &lt;vcpupin vcpu='126' cpuset='71'/>
+    &lt;vcpupin vcpu='127' cpuset='199'/>
+    &lt;vcpupin vcpu='128' cpuset='72'/>
+    &lt;vcpupin vcpu='129' cpuset='200'/>
+    &lt;vcpupin vcpu='130' cpuset='73'/>
+    &lt;vcpupin vcpu='131' cpuset='201'/>
+    &lt;vcpupin vcpu='132' cpuset='74'/>
+    &lt;vcpupin vcpu='133' cpuset='202'/>
+    &lt;vcpupin vcpu='134' cpuset='75'/>
+    &lt;vcpupin vcpu='135' cpuset='203'/>
+    &lt;vcpupin vcpu='136' cpuset='76'/>
+    &lt;vcpupin vcpu='137' cpuset='204'/>
+    &lt;vcpupin vcpu='138' cpuset='77'/>
+    &lt;vcpupin vcpu='139' cpuset='205'/>
+    &lt;vcpupin vcpu='140' cpuset='78'/>
+    &lt;vcpupin vcpu='141' cpuset='206'/>
+    &lt;vcpupin vcpu='142' cpuset='79'/>
+    &lt;vcpupin vcpu='143' cpuset='207'/>
+    &lt;vcpupin vcpu='144' cpuset='80'/>
+    &lt;vcpupin vcpu='145' cpuset='208'/>
+    &lt;vcpupin vcpu='146' cpuset='81'/>
+    &lt;vcpupin vcpu='147' cpuset='209'/>
+    &lt;vcpupin vcpu='148' cpuset='82'/>
+    &lt;vcpupin vcpu='149' cpuset='210'/>
+    &lt;vcpupin vcpu='150' cpuset='83'/>
+    &lt;vcpupin vcpu='151' cpuset='211'/>
+    &lt;vcpupin vcpu='152' cpuset='84'/>
+    &lt;vcpupin vcpu='153' cpuset='212'/>
+    &lt;vcpupin vcpu='154' cpuset='85'/>
+    &lt;vcpupin vcpu='155' cpuset='213'/>
+    &lt;vcpupin vcpu='156' cpuset='86'/>
+    &lt;vcpupin vcpu='157' cpuset='214'/>
+    &lt;vcpupin vcpu='158' cpuset='87'/>
+    &lt;vcpupin vcpu='159' cpuset='215'/>
+    &lt;vcpupin vcpu='160' cpuset='88'/>
+    &lt;vcpupin vcpu='161' cpuset='216'/>
+    &lt;vcpupin vcpu='162' cpuset='89'/>
+    &lt;vcpupin vcpu='163' cpuset='217'/>
+    &lt;vcpupin vcpu='164' cpuset='90'/>
+    &lt;vcpupin vcpu='165' cpuset='218'/>
+    &lt;vcpupin vcpu='166' cpuset='91'/>
+    &lt;vcpupin vcpu='167' cpuset='219'/>
+    &lt;vcpupin vcpu='168' cpuset='92'/>
+    &lt;vcpupin vcpu='169' cpuset='220'/>
+    &lt;vcpupin vcpu='170' cpuset='93'/>
+    &lt;vcpupin vcpu='171' cpuset='221'/>
+    &lt;vcpupin vcpu='172' cpuset='94'/>
+    &lt;vcpupin vcpu='173' cpuset='222'/>
+    &lt;vcpupin vcpu='174' cpuset='95'/>
+    &lt;vcpupin vcpu='175' cpuset='223'/>
+    &lt;vcpupin vcpu='176' cpuset='96'/>
+    &lt;vcpupin vcpu='177' cpuset='224'/>
+    &lt;vcpupin vcpu='178' cpuset='97'/>
+    &lt;vcpupin vcpu='179' cpuset='225'/>
+    &lt;vcpupin vcpu='180' cpuset='98'/>
+    &lt;vcpupin vcpu='181' cpuset='226'/>
+    &lt;vcpupin vcpu='182' cpuset='99'/>
+    &lt;vcpupin vcpu='183' cpuset='227'/>
+    &lt;vcpupin vcpu='184' cpuset='100'/>
+    &lt;vcpupin vcpu='185' cpuset='228'/>
+    &lt;vcpupin vcpu='186' cpuset='101'/>
+    &lt;vcpupin vcpu='187' cpuset='229'/>
+    &lt;vcpupin vcpu='188' cpuset='102'/>
+    &lt;vcpupin vcpu='189' cpuset='230'/>
+    &lt;vcpupin vcpu='190' cpuset='103'/>
+    &lt;vcpupin vcpu='191' cpuset='231'/>
+    &lt;vcpupin vcpu='192' cpuset='104'/>
+    &lt;vcpupin vcpu='193' cpuset='232'/>
+    &lt;vcpupin vcpu='194' cpuset='105'/>
+    &lt;vcpupin vcpu='195' cpuset='233'/>
+    &lt;vcpupin vcpu='196' cpuset='106'/>
+    &lt;vcpupin vcpu='197' cpuset='234'/>
+    &lt;vcpupin vcpu='198' cpuset='107'/>
+    &lt;vcpupin vcpu='199' cpuset='235'/>
+    &lt;vcpupin vcpu='200' cpuset='108'/>
+    &lt;vcpupin vcpu='201' cpuset='236'/>
+    &lt;vcpupin vcpu='202' cpuset='109'/>
+    &lt;vcpupin vcpu='203' cpuset='237'/>
+    &lt;vcpupin vcpu='204' cpuset='110'/>
+    &lt;vcpupin vcpu='205' cpuset='238'/>
+    &lt;vcpupin vcpu='206' cpuset='111'/>
+    &lt;vcpupin vcpu='207' cpuset='239'/>
+    &lt;vcpupin vcpu='208' cpuset='112'/>
+    &lt;vcpupin vcpu='209' cpuset='240'/>
+    &lt;vcpupin vcpu='210' cpuset='113'/>
+    &lt;vcpupin vcpu='211' cpuset='241'/>
+    &lt;vcpupin vcpu='212' cpuset='114'/>
+    &lt;vcpupin vcpu='213' cpuset='242'/>
+    &lt;vcpupin vcpu='214' cpuset='115'/>
+    &lt;vcpupin vcpu='215' cpuset='243'/>
+    &lt;vcpupin vcpu='216' cpuset='116'/>
+    &lt;vcpupin vcpu='217' cpuset='244'/>
+    &lt;vcpupin vcpu='218' cpuset='117'/>
+    &lt;vcpupin vcpu='219' cpuset='245'/>
+    &lt;vcpupin vcpu='220' cpuset='118'/>
+    &lt;vcpupin vcpu='221' cpuset='246'/>
+    &lt;vcpupin vcpu='222' cpuset='119'/>
+    &lt;vcpupin vcpu='223' cpuset='247'/>
+    &lt;vcpupin vcpu='224' cpuset='120'/>
+    &lt;vcpupin vcpu='225' cpuset='248'/>
+    &lt;vcpupin vcpu='226' cpuset='121'/>
+    &lt;vcpupin vcpu='227' cpuset='249'/>
+    &lt;vcpupin vcpu='228' cpuset='122'/>
+    &lt;vcpupin vcpu='229' cpuset='250'/>
+    &lt;vcpupin vcpu='230' cpuset='123'/>
+    &lt;vcpupin vcpu='231' cpuset='251'/>
+    &lt;vcpupin vcpu='232' cpuset='124'/>
+    &lt;vcpupin vcpu='233' cpuset='252'/>
+    &lt;vcpupin vcpu='234' cpuset='125'/>
+    &lt;vcpupin vcpu='235' cpuset='253'/>
+    &lt;vcpupin vcpu='236' cpuset='126'/>
+    &lt;vcpupin vcpu='237' cpuset='254'/>
+    &lt;vcpupin vcpu='238' cpuset='127'/>
+    &lt;vcpupin vcpu='239' cpuset='255'/>
+  &lt;/cputune>
+  &lt;os>
+    &lt;type arch='x86_64' machine='pc-q35-3.1'>hvm</type>
+    &lt;loader readonly='yes' type='pflash'>/usr/share/qemu/ovmf-x86_64-ms-4m-code.bin</loader>
+    &lt;nvram>/var/lib/libvirt/qemu/nvram/sle15sp1-vm1_VARS.fd</nvram>
+  &lt;/os>
+  &lt;cpu mode='custom' match='exact' check='none'>
+    &lt;model fallback='allow'>EPYC</model>
+    &lt;topology sockets='2' cores='60' threads='2'/>
+    &lt;numa>
+      &lt;cell id='0' cpus='0-119' memory='104857600' unit='KiB'>
+        &lt;distances>
+          &lt;sibling id='0' value='10'/>
+          &lt;sibling id='1' value='32'/>
+        &lt;/distances>
+      &lt;/cell>
+      &lt;cell id='1' cpus='120-239' memory='104857600' unit='KiB'>
+        &lt;distances>
+          &lt;sibling id='0' value='32'/>
+          &lt;sibling id='1' value='10'/>
+        &lt;/distances>
+      &lt;/cell>
+    &lt;/numa>
+  &lt;/cpu>
+  &lt;devices>
+    &lt;emulator>/usr/bin/qemu-system-x86_64</emulator>
+    &lt;disk type='file' device='disk'>
+      &lt;driver name='qemu' type='qcow2'/>
+      &lt;source file='/var/lib/libvirt/images/sle15sp1-vm1.qcow2'/>
+      &lt;target dev='sda' bus='scsi'/>
+      &lt;boot order='1'/>
+      &lt;address type='drive' controller='0' bus='0' target='0' unit='0'/>
+    &lt;/disk>
     ...
-    &lt;devices>
-      &lt;emulator>/usr/bin/qemu-kvm&lt;/emulator>
-      &lt;disk type='file' device='disk'>
-        &lt;driver name='qemu' type='qcow2'/>
-        &lt;source file='/home/sles12sp3_01.img'/>
-        &lt;target dev='vda' bus='virtio'/>
-        &lt;address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/>
-      &lt;/disk>
-      ...
-      &lt;interface type='network'>
-        &lt;mac address='52:54:00:9e:08:44'/>
-        &lt;source network='default'/>
-        &lt;model type='virtio'/>
-        &lt;address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
-      &lt;/interface>
-      ...
-      &lt;rng model='virtio'>
-        &lt;backend model='random'>/dev/urandom&lt;/backend>
-        &lt;address type='pci' domain='0x0000' bus='0x00' slot='0x07' function='0x0'/>
-      &lt;/rng>
-    &lt;/devices>
-    &lt;qemu:commandline>
-      &lt;qemu:arg value='-cpu'/>
-      &lt;qemu:arg value='host,migratable=off,+invtsc,l3-cache=on'/>
-    &lt;/qemu:commandline>
-  &lt;/domain>
-</screen>
+    &lt;interface type='network'>
+      &lt;mac address='52:54:00:44:86:ab'/>
+      &lt;source network='default'/>
+      &lt;model type='virtio'/>
+      &lt;driver iommu='on'/>
+      &lt;address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
+    &lt;/interface>
+    ...
+    &lt;video>
+      &lt;model type='qxl' ram='65536' vram='65536' vgamem='16384' heads='1' primary='yes'/>
+      &lt;address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x0'/>
+    &lt;/video>
+    &lt;memballoon model='virtio'>
+      &lt;address type='pci' domain='0x0000' bus='0x05' slot='0x00' function='0x0'/>
+      &lt;driver iommu='on'/>
+    &lt;/memballoon>
+    &lt;rng model='virtio'>
+      &lt;backend model='random'>/dev/urandom</backend>
+      &lt;driver iommu='on'/>
+      &lt;address type='pci' domain='0x0000' bus='0x06' slot='0x00' function='0x0'/>
+    &lt;/rng>
+  &lt;/devices>
+&lt;/domain>
+    </screen>
 
   </sect1>
 
