@@ -2161,6 +2161,70 @@ dmesg |grep SEV
 
     </sect2>
 
+    <sect2 xml:id="sec.virt_test_stream_twovm-all">
+      <title>Test Scenario: Two Large VMs</title>
+
+      <para>
+        Figure <xref linked="sec.virt_test_stream-sev"> shows what happens when two large VMs are used, both with the recommended tuning applied or not.
+        In fact, the various histograms represents:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>host (host-tuned): throughput achieved with 32 STREAM threads, running on the bare metal host, with all tuning applied. This is basically here for reference;</para>
+        </listitem>
+        <listitem>
+          <para>
+            one large VM, running alone, without tuning (nopin-VM1): throughput achieved with 15 STREAM threads, running in one VM with 120 vCPUs, without any tuning applied.
+            This means that the vCPUs of the VM can wonder around dynamically, among all the pCPUs of both the NUMA node of the system.
+            We can, in fact, see how the throughput achieved in this configuration is much less than half of the throughput achieved by the host (which is what we would expect by one large VM running 15 STREAM threads);
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            two large VMs, running concurrently, without tuning (Both-nopin-VM1 and Both-nopin-VM2): throughput achieved in each of the two VMs, when they are running concurrently and each is using 15 STREAM threads, without any tuning.
+            Ideally, both results would be almost equal, and they would also be rouchly equal to half of the throughput achieved on the host.
+            We can easily see this is not the case, and how low (comparable to nopin-VM1) and how variable (Both-nopin-VM2 being significantly lower than Both-nopin-VM1) the throughput is, in this case.
+            This definitely is a result of pinning, as well as the rest of the tuning, not being employed;
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            cumulative throughput of two large VMs, running concurrently, without tuning (Both-nopin-VM1+VM2): this is just the sum of the previous two throughput values (Both-nopin-VM1 and Both-nopin-VM2).
+            Ideally, the result would match the host throughput.
+            But without tuning applied, we are far away from that.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Same as just described, but with the tuning for the two large VMs case configured, as it has been described in this document.
+          </para>
+        </listitem>
+      </itemizedlist>
+
+      <figure xml:id="fig.stream-twovm-omp-all">
+        <title>STREAM Bandwidth - 15 Threads in Two VM</title>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="amd-epyc-2-TWO-VM-stream-omp-ALL.png" width="80%" format="PNG"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="amd-epyc-2-TWO-VM-stream-omp-ALL.png" width="80%" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>
+        This experiments demonstrates that also the tuning proposed for the two large VMs case is rather effective.
+        In fact, with the tuning applied, the throughput achieved by one of those two large VMs running alone in the system, is basically identical to what they both achieve when running together.
+        This means that having pinned the vCPUs and the memory of each VM on one host NUMA node guarantees that they do not interfere between each other.
+      </para>
+
+      <para>
+        This is also confirmed by the fact that the cumulative throughput of the VMs, when they are running concurrently, perfectly matches the result from the host.
+      <para>
+
+    </sect2>
+
     <sect2 xml:id="sec.virt_test_stream-sev">
       <title>Test Scenario: Secure Encrypted Virtualization</title>
 
