@@ -78,7 +78,7 @@
 
     <para><emphasis role="italic">Symmetric multiprocessing (SMP)</emphasis> systems are those that
       contain two or more physical processing cores. Each core may have two threads if
-      Symmetetric Multi-Threading (SMT) is enabled with some resources being shared between SMT siblings.
+      Symmetric Multi-Threading (SMT) is enabled with some resources being shared between SMT siblings.
       To minimize access latencies, multiple layers of caches are used with each level being larger but
       with higher access costs. Cores may share different levels of cache which should be considered
       when tuning for a workload.</para>
@@ -112,7 +112,7 @@
     <para>Communication between the chip and memory is via the IO hub with each CCD having
       one dedicated Infinity Fabric link to the hub and two memory channels per CCD located
       on the Hub. The practical consequence of this architecture versus the first generation
-      EPYC is that the topology is simplier. The first generation had separate memory channels
+      EPYC is that the topology is simpler. The first generation had separate memory channels
       per die as well as links between dies giving two levels of NUMA distance within a
       single socket and a third distance when communicating between sockets. This
       meant that a two-socket machine for EPYC had 4 NUMA nodes (3 levels of NUMA distance)
@@ -186,7 +186,7 @@
       workload is located on the nodes local to the IO channel.</para>
 
     <para>The computer output below shows a conventional view of the topology using the
-      <package>numactl</package> tool which is slightly editted for clarify. The CPU IDs that
+      <package>numactl</package> tool which is slightly edited for clarify. The CPU IDs that
       map to each node are reported on the <quote>node X cpus:</quote> lines and note the NUMA
       distances on the table at the bottom of the computer output. Node 0 and node 1 are a distance
       of 32 apart as they are on separate sockets. The distance is a not a guarantee of the access
@@ -485,7 +485,7 @@ epyc:~ # taskset -c `cat /sys/devices/system/cpu/cpu1/cache/index3/shared_cpu_li
       <para>Workloads that sparsely address large mappings may have a higher memory footprint when
         using THP. This could result in premature reclaim or fallback to remote nodes. An example
         would be HPC workloads operating on large sparse matrices. If memory usage is much higher
-        than expected then compare memory usage with and without THP to decide if the tradeoff is
+        than expected then compare memory usage with and without THP to decide if the trade off is
         not worthwhile. This may be critical on EPYC 2 given that any spillover will congest the
         Infinity links and potentially cause cores to run at a lower frequency. </para>
 
@@ -627,7 +627,7 @@ epyc:~ # taskset -c `cat /sys/devices/system/cpu/cpu1/cache/index3/shared_cpu_li
           is shared with a task running on node 1, all the accesses may be remote, which is a miss
           from the perspective of the hardware but not accounted for in
             <filename>/proc/vmstat</filename>. Detecting remote and local accesses at a hardware
-          level requires using the hardwares <emphasis role="italic">Performance Management
+          level requires using the hardware's <emphasis role="italic">Performance Management
             Unit</emphasis> to detect.</para>
       </note>
 
@@ -877,7 +877,7 @@ Setting cpu: 2
       are <quote>NUMA friendly</quote>: they can be trivially parallelized and each thread can
       operate independently for the majority of the workloads lifetime. For memory-bound workloads,
       the primary benefit will be taking advantage of the high bandwidth available on each channel.
-      For IO-bound workloads, the primary benefit will be realiszed when there are multiple storage
+      For IO-bound workloads, the primary benefit will be realised when there are multiple storage
       devices, each of which is connected to the node local to a task issuing IO.</para>
 
     <sect2 xml:id="sec.test_setup">
@@ -1200,7 +1200,7 @@ stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 des
       threads that also need CPU time. Finally, if there is CPU contention then MPI tasks
       can be stalled waiting on an available CPU and OpenMPI may yield tasks prematurely
       if it detects there are more MPI tasks than CPUs available. These factors should
-      be carefully considered when tuning for parallised workloads in general and MPI
+      be carefully considered when tuning for parallelised workloads in general and MPI
       workloads in particular.</para>
 
       <para>In the specific case of testing NPB on the System Under Test, there was
