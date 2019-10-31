@@ -1059,40 +1059,83 @@ Setting cpu: 2
       <screen>epyc:~ # trace-cmd record -e sched:sched_migrate_task ./stream
 epyc:~ # trace-cmd report
 ...
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47250 prio=120 orig_cpu=0 dest_cpu=4
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47251 prio=120 orig_cpu=0 dest_cpu=8
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47252 prio=120 orig_cpu=0 dest_cpu=12
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47253 prio=120 orig_cpu=0 dest_cpu=16
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47254 prio=120 orig_cpu=0 dest_cpu=20
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47255 prio=120 orig_cpu=0 dest_cpu=24
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47256 prio=120 orig_cpu=0 dest_cpu=28
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47257 prio=120 orig_cpu=0 dest_cpu=32
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47258 prio=120 orig_cpu=0 dest_cpu=36
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47259 prio=120 orig_cpu=0 dest_cpu=40
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47260 prio=120 orig_cpu=0 dest_cpu=44
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47261 prio=120 orig_cpu=0 dest_cpu=48
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47262 prio=120 orig_cpu=0 dest_cpu=52
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47263 prio=120 orig_cpu=0 dest_cpu=56
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47264 prio=120 orig_cpu=0 dest_cpu=60
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47265 prio=120 orig_cpu=0 dest_cpu=64
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47266 prio=120 orig_cpu=0 dest_cpu=68
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47267 prio=120 orig_cpu=0 dest_cpu=72
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47268 prio=120 orig_cpu=0 dest_cpu=76
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47269 prio=120 orig_cpu=0 dest_cpu=80
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47270 prio=120 orig_cpu=0 dest_cpu=84
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47271 prio=120 orig_cpu=0 dest_cpu=88
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47272 prio=120 orig_cpu=0 dest_cpu=92
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47273 prio=120 orig_cpu=0 dest_cpu=96
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47274 prio=120 orig_cpu=0 dest_cpu=100
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47275 prio=120 orig_cpu=0 dest_cpu=104
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47276 prio=120 orig_cpu=0 dest_cpu=108
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47277 prio=120 orig_cpu=0 dest_cpu=112
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47278 prio=120 orig_cpu=0 dest_cpu=116
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47279 prio=120 orig_cpu=0 dest_cpu=120
-stream-47249 [000]  x: sched_migrate_task:  comm=stream pid=47280 prio=120 orig_cpu=0 dest_cpu=124
+stream-47249 x: sched_migrate_task: comm=stream pid=7250 prio=120 orig_cpu=0 dest_cpu=4
+stream-47249 x: sched_migrate_task: comm=stream pid=7251 prio=120 orig_cpu=0 dest_cpu=8
+stream-47249 x: sched_migrate_task: comm=stream pid=7252 prio=120 orig_cpu=0 dest_cpu=12
+stream-47249 x: sched_migrate_task: comm=stream pid=7253 prio=120 orig_cpu=0 dest_cpu=16
+stream-47249 x: sched_migrate_task: comm=stream pid=7254 prio=120 orig_cpu=0 dest_cpu=20
+stream-47249 x: sched_migrate_task: comm=stream pid=7255 prio=120 orig_cpu=0 dest_cpu=24
+stream-47249 x: sched_migrate_task: comm=stream pid=7256 prio=120 orig_cpu=0 dest_cpu=28
+stream-47249 x: sched_migrate_task: comm=stream pid=7257 prio=120 orig_cpu=0 dest_cpu=32
+stream-47249 x: sched_migrate_task: comm=stream pid=7258 prio=120 orig_cpu=0 dest_cpu=36
+stream-47249 x: sched_migrate_task: comm=stream pid=7259 prio=120 orig_cpu=0 dest_cpu=40
+stream-47249 x: sched_migrate_task: comm=stream pid=7260 prio=120 orig_cpu=0 dest_cpu=44
+stream-47249 x: sched_migrate_task: comm=stream pid=7261 prio=120 orig_cpu=0 dest_cpu=48
+stream-47249 x: sched_migrate_task: comm=stream pid=7262 prio=120 orig_cpu=0 dest_cpu=52
+stream-47249 x: sched_migrate_task: comm=stream pid=7263 prio=120 orig_cpu=0 dest_cpu=56
+stream-47249 x: sched_migrate_task: comm=stream pid=7264 prio=120 orig_cpu=0 dest_cpu=60
+stream-47249 x: sched_migrate_task: comm=stream pid=7265 prio=120 orig_cpu=0 dest_cpu=64
+stream-47249 x: sched_migrate_task: comm=stream pid=7266 prio=120 orig_cpu=0 dest_cpu=68
+stream-47249 x: sched_migrate_task: comm=stream pid=7267 prio=120 orig_cpu=0 dest_cpu=72
+stream-47249 x: sched_migrate_task: comm=stream pid=7268 prio=120 orig_cpu=0 dest_cpu=76
+stream-47249 x: sched_migrate_task: comm=stream pid=7269 prio=120 orig_cpu=0 dest_cpu=80
+stream-47249 x: sched_migrate_task: comm=stream pid=7270 prio=120 orig_cpu=0 dest_cpu=84
+stream-47249 x: sched_migrate_task: comm=stream pid=7271 prio=120 orig_cpu=0 dest_cpu=88
+stream-47249 x: sched_migrate_task: comm=stream pid=7272 prio=120 orig_cpu=0 dest_cpu=92
+stream-47249 x: sched_migrate_task: comm=stream pid=7273 prio=120 orig_cpu=0 dest_cpu=96
+stream-47249 x: sched_migrate_task: comm=stream pid=7274 prio=120 orig_cpu=0 dest_cpu=100
+stream-47249 x: sched_migrate_task: comm=stream pid=7275 prio=120 orig_cpu=0 dest_cpu=104
+stream-47249 x: sched_migrate_task: comm=stream pid=7276 prio=120 orig_cpu=0 dest_cpu=108
+stream-47249 x: sched_migrate_task: comm=stream pid=7277 prio=120 orig_cpu=0 dest_cpu=112
+stream-47249 x: sched_migrate_task: comm=stream pid=7278 prio=120 orig_cpu=0 dest_cpu=116
+stream-47249 x: sched_migrate_task: comm=stream pid=7279 prio=120 orig_cpu=0 dest_cpu=120
+stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 dest_cpu=124
 </screen>
 
-      <para>Figure 2 below shows the reported bandwidth for the single and parallelized case. The
+      <para>It is worth noting a number of options that were considered for the test
+	system that were unnecessary for STREAM but may be useful in other situations. The
+	first is that STREAM can be limited if a load/store instruction stalls to fetch
+	data. CPUs may automatically prefetch data based on historical behaviour but
+	it is not guaranteed.  In limited cases, this can be addressed by specifying
+	<parameter>-fprefetch-loop-arrays</parameter> and depending on whether the load is
+	store-intensive, <parameter>-mprefetchwt1</parameter>. In this case it did not help
+	but that may not be universally true for all CPU models and configurations.  It also
+	can be the case that an explicitly scheduled prefetch will disable a CPUs predictive
+	algorithms and degrade performance. Experimentation is recommended but caution is
+	advised. Similarly, for some workloads branch mispredictions can be a major problem and
+	in some cases breach mispredictions can be offset against I-Cache pressure by specifying
+	<parameter>-funroll-loops</parameter>. In the case of STREAM on the test system, the CPU
+	predicted the branches well enough that this was unnecessary.  Finally for math-intensive
+	workloads it can be beneficial to link the application with <parameter>-lmvec</parameter>
+	depending on the application. Some styles of code blocks and loops can also be optimized
+	to use vectored operations by specifying <parameter>-ftree-vectorize</parameter> and
+	explicitly adding support for CPU features such as <parameter>-mavx2</parameter>. In
+	all cases, STREAM does not benefit as its operations are very basic but should be
+	considered on an application-by-application basis and when building support libraries
+	such as numerical libraries.</para>
+
+      <para>For OpenMP, the <parameter>SPREAD</parameter> option was used which in this case
+	happens to spread the load across L3 caches. Spreading across memory controllers may have
+	been more optimal but that information is not trivially discoverable. OpenMP has a variety
+	of different placement options and how load is spread but careful attention should be paid
+	to <parameter>OMP_PLACES</parameter> given the importance of the L3 Cache topology in EPYC
+	2. At the time of writing, it is not possible to specify <parameter>l3cache</parameter>
+	as a place similar to what MPI has. In this case, the topology will have to be
+	examined either with library support such as <package>hwloc</package>, directly via the
+	<parameter>sysfs</parameter> or manually. While it's possible to guess via the CPUID,
+	it is not recommended as CPUs may be offlined or the enumeration may change. An example
+	specification of places based on L3 cache for the test system is;</para>
+
+	<screen>
+{0:4,128:4}, {4:4,132:4}, {8:4,136:4}, {12:4,140:4}, {16:4,144:4}, {20:4,148:4},
+{24:4,152:4}, {28:4,156:4}, {32:4,160:4}, {36:4,164:4}, {40:4,168:4}, {44:4,172:4},
+{48:4,176:4}, {52:4,180:4}, {56:4,184:4}, {60:4,188:4}, {64:4,192:4}, {68:4,196:4},
+{72:4,200:4}, {76:4,204:4}, {80:4,208:4}, {84:4,212:4}, {88:4,216:4}, {92:4,220:4},
+{96:4,224:4}, {100:4,228:4}, {104:4,232:4}, {108:4,236:4}, {112:4,240:4},
+{116:4,244:4}, {120:4,248:4}, {124:4,252:4}
+	</screen>
+
+      <para>Figure 2 shows the reported bandwidth for the single and parallelized case. The
 	single-threaded bandwidth for the basic Copy vector operation on a single core was
 	34.2 GB/sec which is higher than the theoretical maximum of a single DIMM but the I/O
 	hub may interleave accesses.  Channels are interleaved in this configuration as it has
