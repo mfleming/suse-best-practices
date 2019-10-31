@@ -1170,6 +1170,213 @@ stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 des
       </figure>
 
     </sect2>
+
+    <sect2 xml:id="sec.workload_nasa">
+      <title>Test Workload: NASA Parallel Benchmark</title>
+
+      <para><emphasis role="italic">NASA Parallel Benchmark (NPB)</emphasis> is a small set of
+      compute-intensive kernels designed to evaluate the performance of supercomputers. They
+      are small compute kernels derived from <emphasis role="italic">Computational Fluid
+      Dynamics (CFD)</emphasis> applications. The problem size can be adjusted for different
+      memory sizes. Reference implementations exist for both MPI and OpenMP. This setup
+      will focus on the MPI reference implementation.</para>
+
+      <para>While each application behaves differently, one common characteristic is that
+      the workload is very context-switch intensive, barriers frequently yield the CPU to
+      other tasks and the lifetime of individual processes can be very short-lived. The
+      following paragraphs detail the tuning selected for this workload.</para>
+
+      <para>The most basic step is setting the CPU governor to <quote>performance</quote>
+      although it is not mandatory. This can address issues with short-lived, or mobile
+      tasks, failing to run long enough for a higher P-State to be selected even though
+      the workload is very throughput sensitive. The migration cost parameter is set to
+      reduce the frequency the load balancer will move an individual task. The minimum
+      granularity is adjusted to reduce over-scheduling effects. </para>
+
+      <para>Depending on the computational kernel used, the workload may require a
+      power-of-two number or a square number of processes to be used but note that using
+      all available CPUs can mean that the application can contend with itself for CPU time.
+      Furthermore, as IO may be issued to shared memory backed by disk, there are system
+      threads that also need CPU time. Finally, if there is CPU contention then MPI tasks
+      can be stalled waiting on an available CPU and OpenMPI may yield tasks prematurely
+      if it detects there are more MPI tasks than CPUs available. These factors should
+      be carefully considered when tuning for parallised workloads in general and MPI
+      workloads in particular.</para>
+
+      <para>In the specific case of testing NPB on the System Under Test, there was
+      limited advantage to limiting the number of CPUs used in most cases. For the <emphasis
+      role="italics">Embarrassingly Parallel (EP)</emphasis> load in particular, it benefits
+      from using all available CPUs. Hence, the default configuration used all available CPUs
+      (256) which is both a power-of-two and square number of CPUs because it was a sensible
+      starting point. However, this is not universally true. Using <package>perf</package>,
+      it was found that some of the workloads are memory-bound and do not benefit from a
+      high degree of parallelisation and for the final configuration, some workloads were
+      parallelised to have one task per L3 cache in the system to maximise cache usage. The
+      exception was the <emphasis role="italic">Scalar Pentadiagonal (SP)</emphasis> workload
+      which was both memory bound and benefited from using all available CPUs. It should
+      also be noted that the System Under Test used a pre-production CPU, that all memory
+      channels were not populated and the memory speed was not the maximum speed supported
+      by the platform. Hence, the optimal choices for this test may not be universally
+      true for all EPYC platforms. This highlights that there is no universal good choice
+      for optimisation a workload for a platform and that experimentation and validation
+      of tuning parameters is vital.</para>
+
+      <para>The basic compilation flags simply turned on all safe optimisations. The tuned
+      flags used <parameter>-Ofast</parameter> which can be unsafe for some mathematical
+      workloads but generated the correct output for NPB. The other flags used the
+      optimal instructions available on the distribution compiler and vectorised some
+      operations.</para>
+
+      <para>As NPB uses shared files, an XFS partition was used for the temporary files
+      albeit it is only used for mapping shared files and is not a critical path for
+      the benchmark and no IO tuning is necessary. In some cases with MPI applications,
+      it will be possible to use a <filename>tmpfs</filename> partition for OpenMPI. This
+      avoids unnecessary IO assuming the increased physical memory usage does not cause
+      the application to be paged out.</para>
+
+      <table>
+        <title>Test Workload: NASA Parallel Benchmark</title>
+        <tgroup cols="2">
+          <colspec colname="col_1" colwidth="32*"/>
+          <colspec colname="col_2" colwidth="68*"/>
+          <!--<thead>
+            <row>
+            <entry/>
+            <entry>Balanced</entry>
+            <entry>Higher Throughput</entry>
+            <entry>Lower Latency</entry>
+            </row>
+            </thead>-->
+          <tbody>
+            <row>
+              <entry>
+                <para>Compiler</para>
+              </entry>
+              <entry>
+                <para>gcc (SUSE Linux) 7.4.1 20190424, mpif77, mpicc</para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>OpenMPI </para>
+              </entry>
+              <entry>
+                <para>openmpi2-2.1.6-3.3.x86_64</para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>Default compiler flags</para>
+              </entry>
+              <entry>
+                <para>
+                  <parameter>-m64 -O3 -mcmodel=large</parameter>
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>Default number processes</para>
+              </entry>
+              <entry>
+                <para>
+                  <parameter>256</parameter>
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>Selective number processes</para>
+              </entry>
+              <entry>
+                <para>
+                  <parameter>bt=256 sp=256 mg=32 lu=121 ep=256 cg=32</parameter>
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>Tuned compiler flags</para>
+              </entry>
+              <entry>
+                <para>
+                  <parameter>-Ofast -march=znver1 -mtune=znver1 -ftree-vectorize -fprefetch-loop-arrays -mprefetchwt1</parameter>
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>CPU governor performance</para>
+              </entry>
+              <entry>
+                <para>
+                  <parameter>cpupower frequency-set -g performance</parameter>
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>Scheduler parameters</para>
+              </entry>
+              <entry>
+                <para>
+                  <parameter>sysctl -w kernel.sched_migration_cost_ns=5000000</parameter>
+                </para>
+                <para>
+                  <parameter>sysctl -w kernel.sched_min_granularity_ns=10000000</parameter>
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>mpirun parameters</para>
+              </entry>
+              <entry>
+                <para>
+                  <parameter>-mca btl ^openib,udapl -np 64 --bind-to l3cache:overload-allowed</parameter>
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para>mpirun environment</para>
+              </entry>
+              <entry>
+                <para>
+                  <parameter>TMPDIR=/xfs-data-partition</parameter>
+                </para>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+
+      <para>Figure 3 shows the time, as reported by the benchmark, for each of the kernels to
+        complete.</para>
+
+      <figure xml:id="fig.nas_mpi_results">
+        <title>NAS MPI Results</title>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="amd-epyc-2-nas.png" width="80%" format="PNG"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="amd-epyc-2-nas.png" width="80%" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>The baseline test used all available CPUs, basic compilation options
+      and the <parameter>performance</parameter> governor.  The second test <emphasis
+      role="italics">tuned</emphasis> used tuned compilation options, scheduler tuning and
+      bound tasks to L3 caches gaining between 0.9% and 17.54% performance on average. The
+      final test <emphasis role="italics">selective</emphasis> used processes that either used
+      all CPUs, avoided heavy overloaded or limited processes to one per L3 cache showing
+      overall gains between 0.9% and 21.6% depending on the computational kernel. Despite
+      the binding, automatic NUMA balancing was not tuned as the majority of accesses were
+      local to the NUMA domain and the overhead of NUMA balancing was negligible.</para>
+    </sect2>
+
   </sect1>
 
   <sect1 xml:id="sec.conclusion">
