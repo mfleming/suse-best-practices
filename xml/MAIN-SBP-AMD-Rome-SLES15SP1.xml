@@ -11,7 +11,6 @@
 
   <info>
     <title>Optimizing Linux for AMD Rome with SUSE Linux Enterprise 15 SP1</title>
-    <!--<subtitle>Simplified Deployment on Microsoft Azure</subtitle>-->
     <productname>SUSE Linux Enterprise Server</productname>
     <productnumber>15 SP1</productnumber>
 
@@ -31,10 +30,6 @@
         <firstname>Matt</firstname>
         <surname>Fleming, Senior Performance Engineer, SUSE</surname>
       </personname>
-      <!--      <affiliation>
-        <jobtitle>Senior Software Engineer</jobtitle>
-        <orgname>SUSE</orgname>
-        </affiliation>-->
     </author>
 
     <author>
@@ -42,10 +37,6 @@
         <firstname>Dario</firstname>
         <surname>Faggioli, Software Engineer Virtualization Specialist, SUSE</surname>
       </personname>
-      <!--      <affiliation>
-        <jobtitle>Senior Software Engineer</jobtitle>
-        <orgname>SUSE</orgname>
-        </affiliation>-->
     </author>
 
     <author>
@@ -53,10 +44,13 @@
         <firstname>Martin</firstname>
         <surname>Jambor, Tool Chain Developer, SUSE</surname>
       </personname>
-      <!--      <affiliation>
-        <jobtitle>Senior Software Engineer</jobtitle>
-        <orgname>SUSE</orgname>
-        </affiliation>-->
+    </author>
+
+    <author>
+      <personname>
+        <firstname>Brent</firstname>
+        <surname>Hollingsworth, Alliance Manager, AMD</surname>
+      </personname>
     </author>
 
     <date><?dbtimestamp format="B d, Y" ?></date>
