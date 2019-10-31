@@ -1407,16 +1407,6 @@ stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 des
             >https://www.amd.com/en/technologies/sense-mi</link>)</para>
       </listitem>
       <listitem>
-        <para>Balanced power plan optimized for AMD Ryzen processors (<link
-            xlink:href="https://community.amd.com/community/gaming/blog/2017/04/06/amd-ryzen-community-update-3"
-            >https://community.amd.com/community/gaming/blog/2017/04/06/amd-ryzen-community-update-3</link></para>
-      </listitem>
-      <listitem>
-        <para>EPYC Tech Day: Gerry Talbot (<link
-            xlink:href="https://www.youtube.com/watch?v=W5IhEit6NqY"
-            >https://www.youtube.com/watch?v=W5IhEit6NqY</link>)</para>
-      </listitem>
-      <listitem>
         <para>Optimizing Linux for Dual-Core AMD Opteron Processors (<link
             xlink:href="http://www.novell.com/traininglocator/partners/amd/4622016.pdf"
             >http://www.novell.com/traininglocator/partners/amd/4622016.pdf</link>)</para>
