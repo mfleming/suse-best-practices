@@ -2386,10 +2386,10 @@ dmesg |grep SEV
         That, instead, happens when all the tuning described in this guide is applied. The performance drop with respect to the host, in this case, is always below 1%.
       </para>
 
-      <para>Figure <xref linked="fig.stream-onevm-32"/> shows the same setup, but running a parallelized (with OpenMP) version of STREAM.</para>
+      <para>Figure <xref linkend="fig.stream-onevm-32"/> shows the same setup, but running a parallelized (with OpenMP) version of STREAM.</para>
 
       <para>
-        As the VM has pretty much the same dimension and topology of the host, the same STREAM configuration parameters used in Section <xref linked="sec.workload_stream"/>, are used also here.
+        As the VM has pretty much the same dimension and topology of the host, the same STREAM configuration parameters used in Section <xref linkend="sec.workload_stream"/>, are used also here.
         The only difference was that we used 30 threads, instead of 32.
         In fact, the VM has <quote>only</quote> 240 vCPUs, instead than 256 CPUs, and hence no more than 15 STREAM threads per node can run together on separaate LLC domains, without competing with each other and spoiling the results.
       </para>
@@ -2418,7 +2418,7 @@ dmesg |grep SEV
       <title>Test Scenario: Two Large VMs</title>
 
       <para>
-        Figure <xref linked="sec.virt_test_stream-sev"> shows what happens when two large VMs are used, both with the recommended tuning applied or not.
+        Figure <xref linkend="sec.virt_test_stream-sev"/> shows what happens when two large VMs are used, both with the recommended tuning applied or not.
         In fact, the various histograms represents:</para>
 
       <itemizedlist>
@@ -2485,7 +2485,7 @@ dmesg |grep SEV
 
       <para>
         Figure <xref linkend="fig.stream-onevm-single-sev"/> shows the results of running single threaded STREAM in a VM with SEV disabled (VM-noSEV) and in one with SEV enabled (VM-SEV)).
-        Similarly, Figure <xref linked="fig:stream-onevm-omp-sev"/> shows the same, but when using the OMP version of STREAM, running with 30 threads.
+        Similarly, Figure <xref linkend="fig.stream-onevm-omp-sev"/> shows the same, but when using the OMP version of STREAM, running with 30 threads.
         In both cases, both the VMs were tuned according to all the recommendation provided in this guide.
       </para>
 
@@ -2530,7 +2530,7 @@ dmesg |grep SEV
     <sect2 xml:id="sec.virt_test_npb_onevm">
       <title>Test Scenario: One Extra Large VM</title>
 
-      <para>Figure <xref linkend="fig.npb-onevm-tuning"/> shows the results of running the various NPB workloads on the host (host-tuned), on partially tuned VMs (VM-notopo and VM-nopin) and on a VM with full tuning applied (VM-tuned).</para>
+      <para>Figure <xref linkend="fig.npbd-onevm-tuning"/> shows the results of running the various NPB workloads on the host (host-tuned), on partially tuned VMs (VM-notopo and VM-nopin) and on a VM with full tuning applied (VM-tuned).</para>
 
       <figure xml:id="fig.npbd-onevm-tuning">
         <title>STREAM Bandwidth - Single Thread in One VM</title>
