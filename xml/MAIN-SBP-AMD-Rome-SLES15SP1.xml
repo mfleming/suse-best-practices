@@ -2536,7 +2536,7 @@ dmesg |grep SEV
         <title>STREAM Bandwidth - Single Thread in One VM</title>
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-npb-npbd-tuning.png" width="80%" format="PNG"/>
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-npbd-tuning.png" width="80%" format="PNG"/>
           </imageobject>
           <imageobject role="html">
             <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-npbd-tuning.png" width="80%" format="PNG"/>
@@ -2601,10 +2601,10 @@ dmesg |grep SEV
         <title>STREAM Bandwidth - Single Thread in One VM</title>
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-npb-tuning-sev.png" width="80%" format="PNG"/>
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-npbd-tuning-sev.png" width="80%" format="PNG"/>
           </imageobject>
           <imageobject role="html">
-            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-npb-tuning-sev.png" width="80%" format="PNG"/>
+            <imagedata fileref="amd-epyc-2-HOST_vs_ONE-VM-npbd-tuning-sev.png" width="80%" format="PNG"/>
           </imageobject>
         </mediaobject>
       </figure>
