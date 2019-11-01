@@ -2354,7 +2354,7 @@ dmesg |grep SEV
     <sect2 xml:id="sec.virt_test_stream_onevm">
       <title>Test Scenario: One Large VM</title>
 
-      <para>Figure <xref linkend="fig.stream-onevm-single"/> shows the bandwidth achieved by STREAM, built in single thread mode, on the host (host-tuned) and inside one large VM, in the following configurations:</para>
+      <para><xref linkend="fig.stream-onevm-single"/> shows the bandwidth achieved by STREAM, built in single thread mode, on the host (host-tuned) and inside one large VM, in the following configurations:</para>
 
       <itemizedlist>
         <listitem>
@@ -2386,10 +2386,10 @@ dmesg |grep SEV
         That, instead, happens when all the tuning described in this guide is applied. The performance drop with respect to the host, in this case, is always below 1%.
       </para>
 
-      <para>Figure <xref linkend="fig.stream-onevm-32"/> shows the same setup, but running a parallelized (with OpenMP) version of STREAM.</para>
+      <para><xref linkend="fig.stream-onevm-32"/> shows the same setup, but running a parallelized (with OpenMP) version of STREAM.</para>
 
       <para>
-        As the VM has pretty much the same dimension and topology of the host, the same STREAM configuration parameters used in Section <xref linkend="sec.workload_stream"/>, are used also here.
+        As the VM has pretty much the same dimension and topology of the host, the same STREAM configuration parameters used in <xref linkend="sec.workload_stream"/>, are used also here.
         The only difference was that we used 30 threads, instead of 32.
         In fact, the VM has <quote>only</quote> 240 vCPUs, instead than 256 CPUs, and hence no more than 15 STREAM threads per node can run together on separaate LLC domains, without competing with each other and spoiling the results.
       </para>
@@ -2418,7 +2418,7 @@ dmesg |grep SEV
       <title>Test Scenario: Two Large VMs</title>
 
       <para>
-        Figure <xref linkend="sec.virt_test_stream-sev"/> shows what happens when two large VMs are used, both with the recommended tuning applied or not.
+        <xref linkend="sec.virt_test_stream-sev"/> shows what happens when two large VMs are used, both with the recommended tuning applied or not.
         In fact, the various histograms represents:</para>
 
       <itemizedlist>
@@ -2484,8 +2484,8 @@ dmesg |grep SEV
       <para>The goal for this test was evaluating the impact on the performance of SEV, on a memory intensive workload like STREAM.</para>
 
       <para>
-        Figure <xref linkend="fig.stream-onevm-single-sev"/> shows the results of running single threaded STREAM in a VM with SEV disabled (VM-noSEV) and in one with SEV enabled (VM-SEV)).
-        Similarly, Figure <xref linkend="fig.stream-onevm-omp-sev"/> shows the same, but when using the OMP version of STREAM, running with 30 threads.
+        <xref linkend="fig.stream-onevm-single-sev"/> shows the results of running single threaded STREAM in a VM with SEV disabled (VM-noSEV) and in one with SEV enabled (VM-SEV)).
+        Similarly, <xref linkend="fig.stream-onevm-omp-sev"/> shows the same, but when using the OMP version of STREAM, running with 30 threads.
         In both cases, both the VMs were tuned according to all the recommendation provided in this guide.
       </para>
 
@@ -2530,7 +2530,7 @@ dmesg |grep SEV
     <sect2 xml:id="sec.virt_test_npb_onevm">
       <title>Test Scenario: One Extra Large VM</title>
 
-      <para>Figure <xref linkend="fig.npbd-onevm-tuning"/> shows the results of running the various NPB workloads on the host (host-tuned), on partially tuned VMs (VM-notopo and VM-nopin) and on a VM with full tuning applied (VM-tuned).</para>
+      <para><xref linkend="fig.npbd-onevm-tuning"/> shows the results of running the various NPB workloads on the host (host-tuned), on partially tuned VMs (VM-notopo and VM-nopin) and on a VM with full tuning applied (VM-tuned).</para>
 
       <figure xml:id="fig.npbd-onevm-tuning">
         <title>STREAM Bandwidth - Single Thread in One VM</title>
@@ -2564,7 +2564,7 @@ dmesg |grep SEV
       </para>
 
       <para>
-        Figure <xref linkend="fig.npb-cpumod"/> compares the results obtained on the host, on the tuned VM with the <parameter>EPYC</parameter> CPU model (VM-EPYC), which this guide recommends using, and with the tuned VM with <parameter>host-passthrough</parameter> CPU model (VM-hostp).
+        <xref linkend="fig.npb-cpumod"/> compares the results obtained on the host, on the tuned VM with the <parameter>EPYC</parameter> CPU model (VM-EPYC), which this guide recommends using, and with the tuned VM with <parameter>host-passthrough</parameter> CPU model (VM-hostp).
       </para>
 
       <figure xml:id="fig.npb-cpumod">
@@ -2593,7 +2593,7 @@ dmesg |grep SEV
       <para>Similarly to what has been done with STREAM, we evaluate here the overhead introduced by SEV for CPU bound workloads (represented by NPB).</para>
 
       <para>
-        Figure <xref linkend="fig.npb-sev"/> shows the results of running the various NPB workloads on two VMs, both with all the tuning applied and, in the VM-noSEV case, with SEV off.
+        <xref linkend="fig.npb-sev"/> shows the results of running the various NPB workloads on two VMs, both with all the tuning applied and, in the VM-noSEV case, with SEV off.
         In the VM-SEV case, with SEV on.
       </para>
 
