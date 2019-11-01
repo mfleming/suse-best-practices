@@ -2682,16 +2682,16 @@ dmesg |grep SEV
 
     <screen>
 &lt;domain type='kvm'>
-  &lt;name>sle15sp1</name>
+  &lt;name>sle15sp1&lt;/name>
   &lt;metadata>
     &lt;libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
       &lt;libosinfo:os id="http://suse.com/sle/15.1"/>
     &lt;/libosinfo:libosinfo>
   &lt;/metadata>
-  &lt;memory unit='KiB'>209715200</memory>
-  &lt;currentMemory unit='KiB'>209715200</currentMemory>
+  &lt;memory unit='KiB'>209715200&lt;/memory>
+  &lt;currentMemory unit='KiB'>209715200&lt;/currentMemory>
   &lt;memtune>
-    &lt;hard_limit unit='KiB'>232783872</hard_limit>
+    &lt;hard_limit unit='KiB'>232783872&lt;/hard_limit>
   &lt;/memtune>
   &lt;memoryBacking>
     &lt;hugepages>
@@ -2700,7 +2700,7 @@ dmesg |grep SEV
     &lt;nosharepages/>
     &lt;locked/>
   &lt;/memoryBacking>
-  &lt;vcpu placement='static' cpuset='4-63,68-127,132-191,196-255'>240</vcpu>
+  &lt;vcpu placement='static' cpuset='4-63,68-127,132-191,196-255'>240&lt;/vcpu>
   &lt;cputune>
     &lt;vcpupin vcpu='0' cpuset='4'/>
     &lt;vcpupin vcpu='1' cpuset='132'/>
@@ -2944,12 +2944,12 @@ dmesg |grep SEV
     &lt;vcpupin vcpu='239' cpuset='255'/>
   &lt;/cputune>
   &lt;os>
-    &lt;type arch='x86_64' machine='pc-q35-3.1'>hvm</type>
-    &lt;loader readonly='yes' type='pflash'>/usr/share/qemu/ovmf-x86_64-ms-4m-code.bin</loader>
-    &lt;nvram>/var/lib/libvirt/qemu/nvram/sle15sp1-vm1_VARS.fd</nvram>
+    &lt;type arch='x86_64' machine='pc-q35-3.1'>hvm&lt;/type>
+    &lt;loader readonly='yes' type='pflash'>/usr/share/qemu/ovmf-x86_64-ms-4m-code.bin&lt;/loader>
+    &lt;nvram>/var/lib/libvirt/qemu/nvram/sle15sp1-vm1_VARS.fd&lt;/nvram>
   &lt;/os>
   &lt;cpu mode='custom' match='exact' check='none'>
-    &lt;model fallback='allow'>EPYC</model>
+    &lt;model fallback='allow'>EPYC&lt;/model>
     &lt;topology sockets='2' cores='60' threads='2'/>
     &lt;numa>
       &lt;cell id='0' cpus='0-119' memory='104857600' unit='KiB'>
@@ -2967,7 +2967,7 @@ dmesg |grep SEV
     &lt;/numa>
   &lt;/cpu>
   &lt;devices>
-    &lt;emulator>/usr/bin/qemu-system-x86_64</emulator>
+    &lt;emulator>/usr/bin/qemu-system-x86_64&lt;/emulator>
     &lt;disk type='file' device='disk'>
       &lt;driver name='qemu' type='qcow2'/>
       &lt;source file='/var/lib/libvirt/images/sle15sp1-vm1.qcow2'/>
@@ -2993,7 +2993,7 @@ dmesg |grep SEV
       &lt;driver iommu='on'/>
     &lt;/memballoon>
     &lt;rng model='virtio'>
-      &lt;backend model='random'>/dev/urandom</backend>
+      &lt;backend model='random'>/dev/urandom&lt;/backend>
       &lt;driver iommu='on'/>
       &lt;address type='pci' domain='0x0000' bus='0x06' slot='0x00' function='0x0'/>
     &lt;/rng>
