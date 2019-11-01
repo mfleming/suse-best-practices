@@ -2474,7 +2474,7 @@ dmesg |grep SEV
 
       <para>
         This is also confirmed by the fact that the cumulative throughput of the VMs, when they are running concurrently, perfectly matches the result from the host.
-      <para>
+      </para>
 
     </sect2>
 
