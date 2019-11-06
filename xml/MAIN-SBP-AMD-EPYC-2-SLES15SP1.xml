@@ -96,22 +96,22 @@
       different to the EPYC 1 design. One die is a central I/O die through which all off-chip
       communication passes through. The basic building block of a compute die is a four-core
       Core CompleX (CCX) with its own L1-L3 cache hierarchy. One Core Complex Die (CCD)
-      consists of two CCXs with an Infinity Link to the I/O Hub. A 64-core 2nd Generation AMD EPYC Processor socket therefore
+      consists of two CCXs with an Infinity Link to the I/O die. A 64-core 2nd Generation AMD EPYC Processor socket therefore
       consists of 8 CCDs consisting of 16 CCXs or 64 cores in total with one additional I/O
       die for 9 dies in total.</para>
 
     <!-- AMD Question -->
     <screen><emphasis role="red">
 	AMD: It would be nice to be able to use an official AMD graphic illustrating the
-	relationship between the CCX, CCD, and IO hub. Information on the AMD website itself
+	relationship between the CCX, CCD, and IO die. Information on the AMD website itself
 	is sparse and the data is inferred from presentations. This leaves a lot of room for
-	error such as whether a CCD really shares one infinity link to the I/O Hub between
+	error such as whether a CCD really shares one infinity link to the I/O die between
 	two CCXs.
     </emphasis></screen>
 
-    <para>Communication between the chip and memory is via the IO hub with each CCD having
-      one dedicated Infinity Fabric link to the hub and two memory channels per CCD located
-      on the Hub. The practical consequence of this architecture versus the first generation
+    <para>Communication between the chip and memory is via the IO die with each CCD having
+      one dedicated Infinity Fabric link to the die and two memory channels per CCD located
+      on the die. The practical consequence of this architecture versus the first generation
       EPYC is that the topology is simpler. The first generation had separate memory channels
       per die as well as links between dies giving two levels of NUMA distance within a
       single socket and a third distance when communicating between sockets. This
@@ -119,7 +119,7 @@
       where as EPYC 2 has just 2 NUMA nodes (2 levels of NUMA distance) which is easier to
       tune and optimise.</para>
 
-    <para>The IO Hub has a total of 8 memory controllers, each with 2 channels supporting 1
+    <para>The IO die has a total of 8 memory controllers, each with 2 channels supporting 1
       DDR4 <emphasis role="italic">Dual Inline Memory Modules (DIMMs)</emphasis> each (16
       DIMMs in total). With a peak DDR4 frequency of 3.2GHz, this yields a total of
       409.6 GB/sec peak bandwidth with the exact bandwidth depending on the DIMMs selected
@@ -180,7 +180,7 @@
       Linux Enterprise Server 15 SP1 but can be installed for illustration. The two
       <quote>packages</quote> correspond to each socket. The CCXs consisting of 4 cores (8 threads)
       each should be clear as each CCX has 1 L3 cache. What is not obvious is the links to the I/O
-      hub but it should be taken into account when splitting a workload to optimise bandwidth to
+      die but it should be taken into account when splitting a workload to optimise bandwidth to
       memory.  In this example, the IO channels are not heavily used but the focus will be CPU and
       memory-intensive loads. If optimizing for IO, it is recommended, where possible, that the
       workload is located on the nodes local to the IO channel.</para>
@@ -1141,7 +1141,7 @@ stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 des
       <para>Figure 2 shows the reported bandwidth for the single and parallelized case. The
 	single-threaded bandwidth for the basic Copy vector operation on a single core was
 	34.2 GB/sec which is higher than the theoretical maximum of a single DIMM but the I/O
-	hub may interleave accesses.  Channels are interleaved in this configuration as it has
+	die may interleave accesses.  Channels are interleaved in this configuration as it has
 	been recommended as the best balance for a variety of workloads but limits the absolute
 	maximum of a specialized benchmark like STREAM. The total throughput for each parallel
 	operation ranged from 173 GB/sec to 256 GB/sec.</para>
