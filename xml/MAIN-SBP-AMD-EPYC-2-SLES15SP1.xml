@@ -295,19 +295,16 @@ epyc:~ # taskset -c `cat /sys/devices/system/cpu/cpu1/cache/index3/shared_cpu_li
       <para>The first is to watch for remote memory nodes being used where the process is not
         allowed to run on CPUs local to that node. While going more in detail here is outside the
         scope of this paper, the most common scenario is an IO-bound thread communicating with a
-        kernel IO thread on a remote node bound to the IO controller whose accesses are never local.
-        Similarly, the version of <package>irqbalance</package> shipped with SUSE Linux Enterprise
-        Server 15 SP1 is not necessarily optimal for the EPYC 7002 series. Thus it is worth considering disabling
-          <package>irqbalance</package> and manually binding IRQs from storage or network devices to
-        CPUs that are local to the IO channel. Depending on the kernel version and drivers in use,
-        it may not be possible to manually bind IRQs. For example, some devices multi-queue support
-        may not permit IRQs affinities to be changed. </para>
+        kernel IO thread on a remote node bound to the IO controller whose accesses are never local.</para>
 
-      <!-- AMD Question -->
-      <screen><emphasis role="red">
-	AMD/SUSE: Double check the 15 SP1 irqbalance package to see if the necessary
-	patches were backported for EPYC 2 or not.
-      </emphasis></screen>
+      <para>While tasks may be bound to CPUs, the resources they are accessing such as
+	network or storage devices may not have interrupts routed locally.
+	<package>irqbalance</package> generally makes good decisions but in cases where
+	network or IO is extremely high performance or the application has very low latency
+	requirements, it may be necessary to disable <package>irqbalance</package> using
+	<command>systemctl</command>. Once that is done, the IRQs for the target device
+	need to be routed manually to CPUs local to the target workload for optimal
+	performance.</para>
 
       <para>The second is that guides about CPU binding tend to focus on binding to a single CPU.
         This is not always optimal when the task communicates with other threads as fixed bindings
