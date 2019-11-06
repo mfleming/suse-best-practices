@@ -323,18 +323,18 @@ epyc:~ # taskset -c `cat /sys/devices/system/cpu/cpu1/cache/index3/shared_cpu_li
     <sect2 xml:id="sec.cpusets_memory_control_groups">
       <title>CPUsets and Memory Control Groups</title>
 
-      <para><emphasis role="italic">CPUsets</emphasis> are ideal when multiple workloads must be
-        isolated on a machine in a predictable fashion. CPUsets allow a machine to be partitioned
-        into subsets. These sets may overlap, and in that case they suffer from similar problems as
-        CPU affinities. In the event there is no overlap, they can be switched to
-          <quote>exclusive</quote> mode which treats them completely in isolation with relatively
-        little overhead with the caveat that one overloaded CPUset can be saturated leaving another
-        CPUset completely idle. Similarly, they are well suited when a primary workload must be
-        protected from interference because of low-priority tasks in which case the low priority
-        tasks can be placed in a CPUset. The caveat with CPUsets is that the overhead is higher than
-        using scheduler and memory policies. Ordinarily, the accounting code for CPUsets is
-        completely disabled but when a single CPUset is created there are additional essential
-        checks that are made when checking scheduler and memory policies.</para>
+      <para><emphasis role="italic">CPUsets</emphasis> are ideal when multiple workloads
+        must be isolated on a machine in a predictable fashion. CPUsets allow a machine to
+        be partitioned into subsets. These sets may overlap, and in that case they suffer
+        from similar problems as CPU affinities. In the event there is no overlap, they
+        can be switched to <quote>exclusive</quote> mode which treats them completely in
+        isolation with relatively little overhead. Similarly, they are well suited when
+        a primary workload must be protected from interference because of low-priority
+        tasks in which case the low priority tasks can be placed in a CPUset. The caveat
+        with CPUsets is that the overhead is higher than using scheduler and memory
+        policies. Ordinarily, the accounting code for CPUsets is completely disabled but
+        when a single CPUset is created there is a second layer of checks against scheduler
+        and memory policies.</para>
 
       <para>Similarly <package>memcg</package> can be used to limit the amount of memory that can be
         used by a set of processes. When the limits are exceeded then the memory will be reclaimed
