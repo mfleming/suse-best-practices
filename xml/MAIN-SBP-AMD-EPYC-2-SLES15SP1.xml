@@ -367,23 +367,23 @@ epyc:~ # taskset -c `cat /sys/devices/system/cpu/cpu1/cache/index3/shared_cpu_li
         >MSI-X</emphasis> interrupts. Ideally these devices should provide as many MSI-X vectors as
       CPUs are present in the system. To achieve the best performance each MSI-X vector should be
       assigned to an individual CPU.</para>
+  </sect1>
 
-    <sect2 xml:id="sec.auto_numa_balancing">
-      <title>Automatic NUMA Balancing</title>
+  <sect1 xml:id="sec.auto_numa_balancing">
+    <title>Automatic NUMA Balancing</title>
 
-      <para>Automatic NUMA Balancing will ignore any task that uses memory policies. If the
-        workloads can be manually optimized with policies then do so and disable automatic NUMA
-        balancing by specifying <command>numa_balancing=disable</command> on the kernel command line
-        or via <command>sysctl</command>. There are many cases where it is impractical or impossible
-        to specify policies in which case the balancing should be sufficient for
-        throughput-sensitive workloads. For latency sensitive workloads, the sampling for NUMA
-        balancing may be too high in which case it may be necessary to disable balancing. The final
-        corner case where NUMA balancing is a hazard is a case where the number of runnable tasks
-        always exceeds the number of CPUs in a single node. In this case, the load balancer (and
-        potentially affine wakes) will constantly pull tasks away from the preferred node as
-        identified by automatic NUMA balancing resulting in excessive sampling and CPU
-        migrations.</para>
-    </sect2>
+    <para>Automatic NUMA Balancing will ignore any task that uses memory policies. If the
+      workloads can be manually optimized with policies then do so and disable automatic NUMA
+      balancing by specifying <command>numa_balancing=disable</command> on the kernel command line
+      or via <command>sysctl</command>. There are many cases where it is impractical or impossible
+      to specify policies in which case the balancing should be sufficient for
+      throughput-sensitive workloads. For latency sensitive workloads, the sampling for NUMA
+      balancing may be too high in which case it may be necessary to disable balancing. The final
+      corner case where NUMA balancing is a hazard is a case where the number of runnable tasks
+      always exceeds the number of CPUs in a single node. In this case, the load balancer (and
+      potentially affine wakes) will constantly pull tasks away from the preferred node as
+      identified by automatic NUMA balancing resulting in excessive sampling and CPU
+      migrations.</para>
   </sect1>
 
   <sect1 xml:id="sec.evaluating_workloads">
