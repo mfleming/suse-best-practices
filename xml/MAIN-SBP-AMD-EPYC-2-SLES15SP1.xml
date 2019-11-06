@@ -1082,25 +1082,26 @@ stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 des
 
       <para>It is worth noting a number of options that were considered for the test
 	system that were unnecessary for STREAM but may be useful in other situations. The
-	first is that STREAM can be limited if a load/store instruction stalls to fetch
-	data. CPUs may automatically prefetch data based on historical behaviour but
-	it is not guaranteed.  In limited cases, this can be addressed by specifying
-	<parameter>-fprefetch-loop-arrays</parameter> and depending on whether the load is
-	store-intensive, <parameter>-mprefetchwt1</parameter>. In this case it did not help
-	but that may not be universally true for all CPU models and configurations.  It also
-	can be the case that an explicitly scheduled prefetch will disable a CPUs predictive
-	algorithms and degrade performance. Experimentation is recommended but caution is
-	advised. Similarly, for some workloads branch mispredictions can be a major problem and
-	in some cases breach mispredictions can be offset against I-Cache pressure by specifying
-	<parameter>-funroll-loops</parameter>. In the case of STREAM on the test system, the CPU
-	predicted the branches well enough that this was unnecessary.  Finally for math-intensive
-	workloads it can be beneficial to link the application with <parameter>-lmvec</parameter>
-	depending on the application. Some styles of code blocks and loops can also be optimized
-	to use vectored operations by specifying <parameter>-ftree-vectorize</parameter> and
+	first is that STREAM can be limited if a load/store instruction stalls to
+	fetch data. CPUs may automatically prefetch data based on historical behaviour
+	but it is not guaranteed. In limited cases, this may be addressed by specifying
+	<parameter>-fprefetch-loop-arrays</parameter> and depending on whether the workload
+	is store-intensive, <parameter>-mprefetchwt1</parameter>. In the test system using
+	EPYC 2, explicit prefetching did not help but that may not be universally true. A
+	significant hazard is that an explicitly scheduled prefetch may disable a CPUs
+	predictive algorithms and degrade performance. Experimentation is recommended but
+	caution is advised. Similarly, for some workloads branch mispredictions can be
+	a major problem and in some cases breach mispredictions can be offset against
+	I-Cache pressure by specifying <parameter>-funroll-loops</parameter>. In the
+	case of STREAM on the test system, the CPU accurately predicted the branches that
+	unrolling loops was unnecessary.  Finally for math-intensive workloads it can be
+	beneficial to link the application with <parameter>-lmvec</parameter> depending
+	on the application. Some styles of code blocks and loops can also be optimized to
+	use vectored operations by specifying <parameter>-ftree-vectorize</parameter> and
 	explicitly adding support for CPU features such as <parameter>-mavx2</parameter>. In
-	all cases, STREAM does not benefit as its operations are very basic but should be
-	considered on an application-by-application basis and when building support libraries
-	such as numerical libraries.</para>
+	all cases, STREAM does not benefit as its operations are very basic but should
+	be considered on an application-by-application basis and when building support
+	libraries such as numerical libraries.</para>
 
       <para>For OpenMP, the <parameter>SPREAD</parameter> option was used which in this case
 	happens to spread the load across L3 caches. Spreading across memory controllers may have
