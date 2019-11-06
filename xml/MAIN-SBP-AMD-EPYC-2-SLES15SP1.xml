@@ -98,16 +98,20 @@
       Core CompleX (CCX) with its own L1-L3 cache hierarchy. One Core Complex Die (CCD)
       consists of two CCXs with an Infinity Link to the IO die. A 64-core 2nd Generation AMD EPYC Processor socket therefore
       consists of 8 CCDs consisting of 16 CCXs or 64 cores in total with one additional IO
-      die for 9 dies in total.</para>
+      die for 9 dies in total. <xref linkend="fig.epyc_topology_highlevel"/>
+      shows a high-level view of the CCD.</para>
 
-    <!-- AMD Question -->
-    <screen><emphasis role="red">
-	AMD: It would be nice to be able to use an official AMD graphic illustrating the
-	relationship between the CCX, CCD, and IO die. Information on the AMD website itself
-	is sparse and the data is inferred from presentations. This leaves a lot of room for
-	error such as whether a CCD really shares one infinity link to the IO die between
-	two CCXs.
-    </emphasis></screen>
+    <figure xml:id="fig.epyc_topology_highlevel">
+      <title>EPYC 7002 Highlevel View of CCD</title>
+      <mediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="amd-epyc-2-topology-highlevel.png" format="PNG"/>
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="amd-epyc-2-topology-highlevel.png" format="PNG"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
 
     <para>Communication between the chip and memory is via the IO die with each CCD having
       one dedicated Infinity Fabric link to the die and two memory channels per CCD located
