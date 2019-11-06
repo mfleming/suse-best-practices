@@ -10,7 +10,7 @@
   xml:lang="en">
 
   <info>
-    <title>Optimizing Linux for AMD Rome with SUSE Linux Enterprise 15 SP1</title>
+    <title>Optimizing Linux for AMD AMD EPYC™ 7002 Series Processors with SUSE Linux Enterprise 15 SP1</title>
     <productname>SUSE Linux Enterprise Server</productname>
     <productnumber>15 SP1</productnumber>
 
@@ -96,7 +96,7 @@
       different to the EPYC 1 design. One die is a central I/O die through which all off-chip
       communication passes through. The basic building block of a compute die is a four-core
       Core CompleX (CCX) with its own L1-L3 cache hierarchy. One Core Complex Die (CCD)
-      consists of two CCXs with an Infinity Link to the I/O Hub. A 64-core Rome socket therefore
+      consists of two CCXs with an Infinity Link to the I/O Hub. A 64-core 2nd Generation AMD EPYC Processor socket therefore
       consists of 8 CCDs consisting of 16 CCXs or 64 cores in total with one additional I/O
       die for 9 dies in total.</para>
 

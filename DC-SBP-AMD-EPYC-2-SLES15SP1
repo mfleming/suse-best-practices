@@ -9,7 +9,7 @@
 ## ~/.config/daps/dapsrc
 
 ## Mandatory Parameter
-MAIN="MAIN-SBP-AMD-Rome-SLES15SP1.xml"
+MAIN="MAIN-SBP-AMD-EPYC-2-SLES15SP1.xml"
 
 ##--------------------
 ## Optional Parameters
