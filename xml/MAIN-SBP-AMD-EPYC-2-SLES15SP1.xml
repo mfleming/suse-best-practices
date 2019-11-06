@@ -120,42 +120,27 @@
       tune and optimise.</para>
 
     <para>The IO die has a total of 8 memory controllers, each with 2 channels supporting 1
-      DDR4 <emphasis role="italic">Dual Inline Memory Modules (DIMMs)</emphasis> each (16
-      DIMMs in total). With a peak DDR4 frequency of 3.2GHz, this yields a total of
-      409.6 GB/sec peak bandwidth with the exact bandwidth depending on the DIMMs selected
-      and number of memory channels populated. Total capacity is expected to be 4 TB.</para>
+      DDR4 <emphasis role="italic">Dual Inline Memory Modules (DIMMs)</emphasis> each
+      (16 DIMMs in total). With a peak DDR4 frequency of 3.2GHz, this yields a total of
+      204.8 GB/sec peak theoretical bandwidth with the exact bandwidth depending on the
+      DIMMs selected, the number of memory channels populated and the efficiency of the
+      application. The maximum total capacity is 4 TB.</para>
 
-    <!-- AMD Question -->
-    <screen><emphasis role="red">
-	AMD: These figures need to be double checked. It was difficult to get clear
-	architectural details on the capabilities of the memory topology and how sockets are
-	linked together. We think this description is accurate but it's uncertain. Information
-	on the bandwidth of the Infinity Links is unavailable so we do not comment on it
-	because even with that figure, it's unclear how channels are used per infinity link
-	and what consequences this may have for peak inter-socket bandwidth.  Similarly,
-	the power management capabilities are unclear. In EPYC, it was possible that power
-	available to the infinity links could be used to boost CPU frequency if the link
-	was idle but it's not clear if this is still the case. It does not have an impact
-	on the tuning guide itself so the information is simply omitted.
-    </emphasis></screen>
+    <para>Power management on the links is careful to minimize the amount of power
+      required. If the links are idle then the power may be used to boost the frequency
+      of individual cores. Hence, it is worth noting that minimising access is not only
+      important from a memory access latency point of view, but it also has an impact on
+      the speed of individual cores.</para>
 
     <para>There are eight IO x16 PCIe 4.0 lanes per socket where lanes
-      can be used as Infinity links, PCI Express links or SATA links
-      with a limit of 32 SATA or NVMe devices. This allows very large IO
-      configurations and a high degree of flexibility given that either IO
-      bandwidth can be optimised or the bandwidth between sockets depending
-      on the OEM requirements. The most likely configuration is that the
-      number of PCIe links will be the same for 1 and socket machines
-      given that some lanes per socket will be used for inter-socket
-      communication. The upshot is that a 1 or 2 socket configuration
-      does not have to compromise on the available IO channels.</para>
-
-    <!-- AMD Question -->
-    <screen><emphasis role="red">
-	AMD: Similarly, it was very difficult to determine exactly how the PCIe links can
-	be used or reconfigured given the lack of detailed architectural manuals. Much
-	had to be inferred from presentations.
-    </emphasis></screen>
+      can be used as Infinity links, PCI Express links or SATA links with a limit of 32
+      SATA or NVMe devices. This allows very large IO configurations and a high degree
+      of flexibility given that either IO bandwidth can be optimised or the bandwidth
+      between sockets depending on the OEM requirements. The most likely configuration
+      is that the number of PCIe links will be the same for 1 and socket machines given
+      that some lanes per socket will be used for inter-socket communication. The upshot
+      is that a 1 or 2 socket configuration does not have to compromise on the available
+      IO channels. The exact configuration used depends on the platform.</para>
   </sect1>
 
   <sect1 xml:id="sec.epyc_topology">
