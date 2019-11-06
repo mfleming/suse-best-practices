@@ -93,11 +93,11 @@
       accesses are not necessarily to local memory incurring a variable access penalty.</para>
 
     <para>EPYC 2 is an MCM design with up to nine dies on each package which is significantly
-      different to the EPYC 1 design. One die is a central I/O die through which all off-chip
+      different to the EPYC 1 design. One die is a central IO die through which all off-chip
       communication passes through. The basic building block of a compute die is a four-core
       Core CompleX (CCX) with its own L1-L3 cache hierarchy. One Core Complex Die (CCD)
-      consists of two CCXs with an Infinity Link to the I/O die. A 64-core 2nd Generation AMD EPYC Processor socket therefore
-      consists of 8 CCDs consisting of 16 CCXs or 64 cores in total with one additional I/O
+      consists of two CCXs with an Infinity Link to the IO die. A 64-core 2nd Generation AMD EPYC Processor socket therefore
+      consists of 8 CCDs consisting of 16 CCXs or 64 cores in total with one additional IO
       die for 9 dies in total.</para>
 
     <!-- AMD Question -->
@@ -105,7 +105,7 @@
 	AMD: It would be nice to be able to use an official AMD graphic illustrating the
 	relationship between the CCX, CCD, and IO die. Information on the AMD website itself
 	is sparse and the data is inferred from presentations. This leaves a lot of room for
-	error such as whether a CCD really shares one infinity link to the I/O die between
+	error such as whether a CCD really shares one infinity link to the IO die between
 	two CCXs.
     </emphasis></screen>
 
@@ -179,7 +179,7 @@
     <para>This tool is part of the <package>hwloc</package> package which is not supported in SUSE
       Linux Enterprise Server 15 SP1 but can be installed for illustration. The two
       <quote>packages</quote> correspond to each socket. The CCXs consisting of 4 cores (8 threads)
-      each should be clear as each CCX has 1 L3 cache. What is not obvious is the links to the I/O
+      each should be clear as each CCX has 1 L3 cache. What is not obvious is the links to the IO
       die but it should be taken into account when splitting a workload to optimise bandwidth to
       memory.  In this example, the IO channels are not heavily used but the focus will be CPU and
       memory-intensive loads. If optimizing for IO, it is recommended, where possible, that the
@@ -377,7 +377,7 @@ epyc:~ # taskset -c `cat /sys/devices/system/cpu/cpu1/cache/index3/shared_cpu_li
 
     <para>High-performance storage devices like <emphasis role="italic">Non-Volatile Memory Express
         (NVMe)</emphasis> or <emphasis role="italic">Serial Attached SCSI (SAS)</emphasis>
-      controller are designed to take advantage of parallel I/O submission. These devices typically
+      controller are designed to take advantage of parallel IO submission. These devices typically
       support a large number of submit and receive queues, which are tied to <emphasis role="italic"
         >MSI-X</emphasis> interrupts. Ideally these devices should provide as many MSI-X vectors as
       CPUs are present in the system. To achieve the best performance each MSI-X vector should be
@@ -1140,7 +1140,7 @@ stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 des
 
       <para>Figure 2 shows the reported bandwidth for the single and parallelized case. The
 	single-threaded bandwidth for the basic Copy vector operation on a single core was
-	34.2 GB/sec which is higher than the theoretical maximum of a single DIMM but the I/O
+	34.2 GB/sec which is higher than the theoretical maximum of a single DIMM but the IO
 	die may interleave accesses.  Channels are interleaved in this configuration as it has
 	been recommended as the best balance for a variety of workloads but limits the absolute
 	maximum of a specialized benchmark like STREAM. The total throughput for each parallel
@@ -1412,7 +1412,7 @@ stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 des
     </para>
 
     <para>
-      And it is also the case that, poor mapping of virtual machine resources (virtual CPUs and memory, but also I/O) on the host topology induces performance degradation to everything that runs inside the virtual machine – and potentially even to other components of the system .
+      And it is also the case that, poor mapping of virtual machine resources (virtual CPUs and memory, but also IO) on the host topology induces performance degradation to everything that runs inside the virtual machine – and potentially even to other components of the system .
     </para>
 
     <para>
