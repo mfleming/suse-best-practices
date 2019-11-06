@@ -1079,40 +1079,52 @@ stream-47249 x: sched_migrate_task: comm=stream pid=7279 prio=120 orig_cpu=0 des
 stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 dest_cpu=124
 </screen>
 
-      <para>It is worth noting a number of options that were considered for the test
-	system that were unnecessary for STREAM but may be useful in other situations. The
-	first is that STREAM can be limited if a load/store instruction stalls to
-	fetch data. CPUs may automatically prefetch data based on historical behaviour
-	but it is not guaranteed. In limited cases, this may be addressed by specifying
-	<parameter>-fprefetch-loop-arrays</parameter> and depending on whether the workload
-	is store-intensive, <parameter>-mprefetchwt1</parameter>. In the test system using
-	EPYC 2, explicit prefetching did not help but that may not be universally true. A
-	significant hazard is that an explicitly scheduled prefetch may disable a CPUs
-	predictive algorithms and degrade performance. Experimentation is recommended but
-	caution is advised. Similarly, for some workloads branch mispredictions can be
-	a major problem and in some cases breach mispredictions can be offset against
-	I-Cache pressure by specifying <parameter>-funroll-loops</parameter>. In the
-	case of STREAM on the test system, the CPU accurately predicted the branches that
-	unrolling loops was unnecessary.  Finally for math-intensive workloads it can be
-	beneficial to link the application with <parameter>-lmvec</parameter> depending
-	on the application. Some styles of code blocks and loops can also be optimized to
-	use vectored operations by specifying <parameter>-ftree-vectorize</parameter> and
+      <para>A number of options were considered for the test system that were unnecessary
+	for STREAM running on the EPYC 7002 series processors but may be useful in other
+	situations.  STREAM performance can be limited if a load/store instruction stalls to
+	fetch data. CPUs may automatically prefetch data based on historical behaviour but it
+	is not guaranteed. In limited cases depending on the CPU and workload, this may be
+	addressed by specifying <parameter>-fprefetch-loop-arrays</parameter> and depending
+	on whether the workload is store-intensive, <parameter>-mprefetchwt1</parameter>. In
+	the test system using EPYC 7002 series processors, explicit prefetching did
+	not help and was omitted as an explicitly scheduled prefetch may disable a
+	CPUs predictive algorithms and degrade performance.  Similarly, for some
+	workloads branch mispredictions can be a major problem and in some cases
+	breach mispredictions can be offset against I-Cache pressure by specifying
+	<parameter>-funroll-loops</parameter>. In the case of STREAM on the test
+	system, the CPU accurately predicted the branches rendering the unrolling of
+	loops unnecessary. For math-intensive workloads it can be beneficial to link the
+	application with <parameter>-lmvec</parameter> depending on the application. In the
+	case of STREAM, the workload did not use significant math-based operations and so this
+	option was not utilised. Some styles of code blocks and loops can also be optimized
+	to use vectored operations by specifying <parameter>-ftree-vectorize</parameter> and
 	explicitly adding support for CPU features such as <parameter>-mavx2</parameter>. In
 	all cases, STREAM does not benefit as its operations are very basic but should
 	be considered on an application-by-application basis and when building support
-	libraries such as numerical libraries.</para>
+	libraries such as numerical libraries. In all cases, experimentation is recommended
+	but caution advised, particularly when considering options like prefetch that may
+	have been advisable on much older CPUs or completely different workloads. Such
+	options are not universally beneficial or always suitable for modern CPUs such
+	as the EPYC 7002 series.</para>
 
-      <para>For OpenMP, the <parameter>SPREAD</parameter> option was used which in this case
-	happens to spread the load across L3 caches. Spreading across memory controllers may have
-	been more optimal but that information is not trivially discoverable. OpenMP has a variety
-	of different placement options and how load is spread but careful attention should be paid
-	to <parameter>OMP_PLACES</parameter> given the importance of the L3 Cache topology in EPYC
-	2. At the time of writing, it is not possible to specify <parameter>l3cache</parameter>
-	as a place similar to what MPI has. In this case, the topology will have to be
-	examined either with library support such as <package>hwloc</package>, directly via the
-	<parameter>sysfs</parameter> or manually. While it's possible to guess via the CPUID,
-	it is not recommended as CPUs may be offlined or the enumeration may change. An example
-	specification of places based on L3 cache for the test system is;</para>
+      <para>In the case of STREAM running on the EPYC 7002 series processor, it was sufficient
+	to enable <parameter>-Ofast</parameter>. This includes the <parameter>-O3</parameter>
+	optimisations to enable vectorisation and gives some leeway for optimisations
+	that increase the code size with additional options for fast path that may not
+	be standards-compliant.</para>
+
+      <para>For OpenMP, the <parameter>SPREAD</parameter> option was used to spread the
+	load across L3 caches. Spreading across memory controllers may have been more
+	optimal but that information is not trivially discoverable. OpenMP has a variety
+	of different placement options if manually tuning placement but careful attention
+	should be paid to <parameter>OMP_PLACES</parameter> given the importance of
+	the L3 Cache topology in EPYC 2. At the time of writing, it is not possible to
+	specify <parameter>l3cache</parameter> as a place similar to what MPI has. In
+	this case, the topology will have to be examined either with library support
+	such as <package>hwloc</package>, directly via the <parameter>sysfs</parameter>
+	or manually. While it is possible to guess via the CPUID, it is not recommended
+	as CPUs may be offlined or the enumeration may change. An example specification
+	of places based on L3 cache for the test system is;</para>
 
 	<screen>
 {0:4,128:4}, {4:4,132:4}, {8:4,136:4}, {12:4,140:4}, {16:4,144:4}, {20:4,148:4},
@@ -1125,11 +1137,12 @@ stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 des
 
       <para>Figure 2 shows the reported bandwidth for the single and parallelized case. The
 	single-threaded bandwidth for the basic Copy vector operation on a single core was
-	34.2 GB/sec which is higher than the theoretical maximum of a single DIMM but the IO
-	die may interleave accesses.  Channels are interleaved in this configuration as it has
-	been recommended as the best balance for a variety of workloads but limits the absolute
-	maximum of a specialized benchmark like STREAM. The total throughput for each parallel
-	operation ranged from 173 GB/sec to 256 GB/sec.</para>
+	34.2 GB/sec which is higher than the theoretical maximum of a single DIMM but the
+	IO die may interleave accesses.  Channels are interleaved in this configuration as
+	it has been recommended as the best balance for a variety of workloads but limits
+	the absolute maximum of a specialized benchmark like STREAM. The total throughput
+	for each parallel operation ranged from 173 GB/sec to 256 GB/sec depending on the
+	type of operation and how efficiently memory bandwidth was used.</para>
 
       <note>
         <title>STREAM Scores</title>
@@ -1360,6 +1373,17 @@ stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 des
       overall gains between 0.9% and 21.6% depending on the computational kernel. Despite
       the binding, automatic NUMA balancing was not tuned as the majority of accesses were
       local to the NUMA domain and the overhead of NUMA balancing was negligible.</para>
+
+      <para>In some cases, it will be necessary to compile an application that can run on
+	different CPUs. In such cases, <parameter>-march=znver1</parameter> may not be
+	suitable if it generates binaries that are incompatible with other vendors. In
+	such cases, it is possible to specify the ISA-specific options that are
+	cross-compatible with many x86-based CPUs such as <parameter>-mavx2</parameter>,
+	<parameter>-mfma</parameter>, <parameter>-msse2</parameter> or
+	<parameter>msse4a</parameter> while favouring optimal code generation for EPYC with
+	<parameter>-mtune=znver1</parameter>. This can be used to strike a balance between
+	excellent performance on a single CPU and great performance on multiple CPUs.</para>
+
     </sect2>
 
   </sect1>
