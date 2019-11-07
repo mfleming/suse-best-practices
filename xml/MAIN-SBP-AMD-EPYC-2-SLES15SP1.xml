@@ -600,6 +600,8 @@ epyc:~ # taskset -c `cat /sys/devices/system/cpu/cpu1/cache/index3/shared_cpu_li
           <command>numa_miss</command> counters are the most important to pay attention to. An
         application that is allocating memory that starts incrementing the
           <command>numa_miss</command> implies that the first level of saturation has been reached.
+	If monitoring the <filename>proc</filename> is undesirable then the <command>numastat</command>
+	provides the same information.
         If this is observed on EPYC 2, it may be valuable to bind the application to nodes that
         represent dies on a single socket. If the ratio of hits to misses is close to 1, consider an
         evaluation of the interleave policy to avoid unnecessary reclaim.</para>
