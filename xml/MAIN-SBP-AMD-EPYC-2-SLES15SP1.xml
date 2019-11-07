@@ -1396,7 +1396,7 @@ stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 des
     <title>Using AMD EPYC 2 for Virtualization</title>
 
     <para>
-      Running Virtual Machines (VMs) has some aspects in common with running <quote>regular</quote> tasks, on an host Operating System.
+      Running Virtual Machines (VMs) has some aspects in common with running <quote>regular</quote> tasks on an host Operating System.
       Therefore, most of the tuning advice described so far in this document are valid and applicable to this section too.
     </para>
 
@@ -1485,7 +1485,7 @@ stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 des
       <title>Allocating Resources to the Host OS</title>
 
       <para>
-        Even if The main purpose of a server is <quote>limited</quote> to running VMs, some activities will be carried out on the host host OS.
+        Even if the main purpose of a server is <quote>limited</quote> to running VMs, some activities will be carried out on the host host OS.
         In fact, in both Xen and KVM, the host OS is at least responsible for helping with the IO of the VMs.
         It is, therefore, good practise to make sure that the host OS has some resources (namely, CPUs and memory) exclusively assigned to itself.
       </para>
@@ -1760,7 +1760,7 @@ stream-47249 x: sched_migrate_task: comm=stream pid=7280 prio=120 orig_cpu=0 des
         Moving this memory, for instance on a different NUMA node from the one where it is first allocated, incurs (when possible at all) in a significant performance impact.
         Therefore, it is of paramount importance that the initial placement of the VMs is as optimal as possible.
         Both Xen and KVM can make <quote>educated guesses</quote> on what a good placement might be.
-        For the purposes of this document, however, we are interested in what is the absolute possible initial placement of the VMs, taking into account the specific characteristics of EPYC 2 systems.
+        For the purposes of this document, however, we are interested in what is the absolute best possible initial placement of the VMs, taking into account the specific characteristics of EPYC 2 systems.
         And this can only be achieved by <emphasis role="strong">manually</emphasis> doing the initial placement.
         Of course, this comes at the price of reduced flexibility, and is only possible when there is no oversubscription.
       </para>
@@ -1971,7 +1971,7 @@ node   0
       </para>
 
       <para>
-        For instance, as already suggested above, a 1 vCPU VM can have its vCPU bound to the one SMT thread of a core, while the other thread can be assigned to the host, and th eIO thread(s) of the VM pinned to it.
+        For instance, as already suggested above, a 1 vCPU VM can have its vCPU bound to the one SMT thread of a core, while the other thread can be assigned to the host, and the IO thread(s) of the VM pinned to it.
         The idea behind this is that a common execution pattern will be for the vCPU to be idle when the IO threads are busy.
         Hence this setup would potentially maximizes the exploitation of hardware resources.
       </para>
@@ -2047,7 +2047,7 @@ node   0
       </para>
 
       <para>
-        Ballooning, on the other hand, replies on the idea that VMs do not always use all the memory they are configured to be able to use.
+        Ballooning, on the other hand, relies on the idea that VMs do not always use all the memory they are configured to be able to use.
         This is supported in both Xen and KVM, but using it is not ideal for performance, and so is not analyzed in any further details in this document.
       </para>
 
@@ -2109,7 +2109,7 @@ node   0
         <para>
           Each <parameter>&lt;cell></parameter> element defines one virtual NUMA node, specifying how much memory and which vCPUs are part of it.
           The <parameter>&lt;distances></parameter> elements allow us to define a custom virtual NUMA distance table.
-          Values should be - as it is on actual hardware - an indication of how large it is the latency of accessing the memory of every node from any other.
+          Values should be - as it is on actual hardware - an indication of the latency of accessing the memory of every node from any other.
           And again we are defining a virtual distance table which exactly matches the host one, for the one big VM.
         </para>
 
@@ -2214,7 +2214,7 @@ cat /sys/devices/system/cpu/cpu0/cache/index3/shared_cpu_list
           Memory wise, the VMs need to be told to use the Huge Pages that were reserved for them.
           To effectively use 1 GB huge pages, the amount of memory each VM is given must be a multiple of 1 GB.
           Also, KSM should be disabled and we also must ensure that VMs' memory is never going to be swapped out.
-          This is all achieved done as follows:
+          This is all achieved as follows:
         </para>
 
         <screen>
@@ -2395,7 +2395,7 @@ dmesg |grep SEV
 
       <para>
         It appears evident how resource allocation is critical for achieving good performance inside of the VM.
-        In fact, neither only defining a virtual topology nor vCPU and memory pinning, alone, let the VM achieve near host performance. On the contrary, we see performance dropping by -30% or -40%, depending on both the configuration and the STREAM operation considered.
+        In fact, neither defining a virtual topology nor vCPU and memory pinning, alone, let the VM achieve near host performance. On the contrary, we see performance dropping by -30% or -40%, depending on both the configuration and the STREAM operation considered.
         That, instead, happens when all the tuning described in this guide is applied. The performance drop with respect to the host, in this case, is always below 1%.
       </para>
 
