@@ -496,7 +496,7 @@ epyc:~ # taskset -c `cat /sys/devices/system/cpu/cpu1/cache/index3/shared_cpu_li
         deterministic fashion can be hindered by THP. While there are fewer faults, the time for
         each fault is higher as memory must be allocated and cleared before being visible. The
         increase in fault times may be in the microsecond granularity. Ensure this is a relevant
-        problem as it typically only applies to hard real-time applications. The secondary problem
+        problem as it typically only applies to extremely latency-sensitive applications. The secondary problem
         is that a kernel daemon periodically scans a process looking for contiguous regions that can
         be backed by huge pages. When creating a huge page, there is a window during which that
         memory cannot be accessed by the application and new mappings cannot be created until the
