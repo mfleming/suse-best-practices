@@ -1035,14 +1035,14 @@ Setting cpu: 2
       </table>
 
       <para>The <parameter>march=znver1</parameter> is a reflection of the compiler available
-	in SLE 15 SP2. From <command>gcc 9.2</command>, full architectural support via
-	<parameter>march=znver2</parameter> is available for the EPYC 2 processor and will
-	be shipped with SLE 15 SP2. The number of openMP threads was selected to have at
-	least one thread running for every memory channel by having one thread per L3 cache
-	available. The <parameter>OMP_PROC_BIND</parameter> parameter spreads the threads
-	such that one thread is bound to each available dedicated L3 cache to maximize
-	available bandwidth. This can be verified using <command>trace-cmd</command>, as
-	illustrated below with slight editing for formatting and clarity.</para>
+	in SLE 15 SP1. From <command>gcc 9.2</command>, full architectural support
+	via <parameter>march=znver2</parameter> will be available. The number of openMP
+	threads was selected to have at least one thread running for every memory channel by
+	having one thread per L3 cache available. The <parameter>OMP_PROC_BIND</parameter>
+	parameter spreads the threads such that one thread is bound to each available
+	dedicated L3 cache to maximize available bandwidth. This can be verified using
+	<command>trace-cmd</command>, as illustrated below with slight editing for formatting
+	and clarity.</para>
 
       <screen>epyc:~ # trace-cmd record -e sched:sched_migrate_task ./stream
 epyc:~ # trace-cmd report
